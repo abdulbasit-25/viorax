@@ -15,7 +15,7 @@ dist-ssr
 .tanstack/**
 .nitro
 *.local
-
+.lovable/
 # Wrangler / Cloudflare
 .wrangler/
 .dev.vars
@@ -30,3 +30,4 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
