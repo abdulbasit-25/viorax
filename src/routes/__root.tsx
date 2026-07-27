@@ -19,9 +19,7 @@ function NotFoundComponent() {
       <div className="max-w-md text-center">
         <p className="font-mono text-xs uppercase tracking-[0.3em] text-signal">Signal lost</p>
         <h1 className="mt-4 font-mono text-6xl text-text-primary">404</h1>
-        <p className="mt-2 text-sm text-text-muted">
-          This frequency isn't broadcasting.
-        </p>
+        <p className="mt-2 text-sm text-text-muted">This frequency isn't broadcasting.</p>
         <div className="mt-6">
           <Link
             to="/"
@@ -48,9 +46,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
         <h1 className="text-xl font-semibold tracking-tight text-text-primary">
           Transmission interrupted
         </h1>
-        <p className="mt-2 text-sm text-text-muted">
-          The signal cut out. Retry or return to base.
-        </p>
+        <p className="mt-2 text-sm text-text-muted">The signal cut out. Retry or return to base.</p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
             onClick={() => {
@@ -79,9 +75,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Signal Room — Live screen sharing between devices" },
-      { name: "description", content: "Tune in on a frequency and broadcast your screen to any device. Zero setup, no accounts." },
+      {
+        name: "description",
+        content:
+          "Tune in on a frequency and broadcast your screen to any device. Zero setup, no accounts.",
+      },
       { property: "og:title", content: "Signal Room" },
-      { property: "og:description", content: "Live screen sharing between devices — no accounts, no downloads." },
+      {
+        property: "og:description",
+        content: "Live screen sharing between devices — no accounts, no downloads.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -121,7 +124,61 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
+      <div className="min-h-screen bg-ink text-text-primary">
+        <header className="border-b border-panel-line px-6 py-4 lg:px-10">
+          <div className="mx-auto flex flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <Link
+                to="/"
+                className="font-mono text-sm uppercase tracking-[0.3em] text-text-muted hover:text-text-primary"
+              >
+                Signal Room
+              </Link>
+            </div>
+            <nav className="flex flex-wrap items-center gap-3">
+              <Link
+                to="/"
+                className="font-mono text-sm uppercase tracking-[0.3em] text-text-muted hover:text-text-primary"
+              >
+                Home
+              </Link>
+              <Link
+                to="/about"
+                className="font-mono text-sm uppercase tracking-[0.3em] text-text-muted hover:text-text-primary"
+              >
+                About
+              </Link>
+              <Link
+                to="/help"
+                className="font-mono text-sm uppercase tracking-[0.3em] text-text-muted hover:text-text-primary"
+              >
+                Help
+              </Link>
+            </nav>
+            {/* <a
+              href="https://abdulbasit-archer.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-mono text-sm uppercase tracking-[0.3em] text-text-muted transition-colors hover:text-text-primary"
+            >
+              Powered by Archer
+            </a> */}
+          </div>
+        </header>
+
+        <Outlet />
+
+        {/* <footer className="border-t border-panel-line px-6 py-6 text-center text-xs text-text-muted">
+          <a
+            href="https://abdulbasit-archer.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-mono uppercase tracking-[0.3em] text-text-muted hover:text-text-primary"
+          >
+            Powered by Archer
+          </a>
+        </footer> */}
+      </div>
       <Toaster theme="dark" position="bottom-right" />
     </QueryClientProvider>
   );
