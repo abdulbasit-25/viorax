@@ -1,29 +1,100 @@
-# Welcome to your Lovable project
+# Signal Room
 
-This project was built with [Lovable](https://lovable.dev).
+**Live browser-to-browser screen sharing. No accounts, no downloads, no signal lost.**
 
-## Build with Lovable
+🔗 **Live app:** [viorax.vercel.app](https://viorax.vercel.app)
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+Open a frequency, share the code, go live. Signal Room is a frontend-only, peer-to-peer screen sharing tool — tune in on a 6-character room code from any device and watch, or broadcast your screen to anyone who joins.
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+## Features
 
-## Development
+- 📡 **No accounts** — open a frequency and start broadcasting immediately
+- 🔢 **Frequency-style room codes** — simple 6-character codes instead of links or logins
+- 🔗 **Peer-to-peer** — direct WebRTC connection between devices, nothing recorded or stored on a server
+- 👥 **Multi-viewer** — one host can broadcast to multiple connected viewers
+- 📷 **QR join** — scan a code on mobile instead of typing it in
+- 📱 **Responsive** — desktop hosting, with a touch-friendly join flow on mobile
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+## Tech stack
 
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
+- [React](https://react.dev) + [TypeScript](https://www.typescriptlang.org)
+- [TanStack Router](https://tanstack.com/router) (file-based routing, SSR shell)
+- [TanStack Query](https://tanstack.com/query) for data/query state
+- [Tailwind CSS](https://tailwindcss.com) for styling
+- [Vite](https://vitejs.dev) for the build tooling
+- WebRTC for peer-to-peer screen/video streaming
+- [Bun](https://bun.sh) as the primary package manager/runtime
+
+## Getting started
+
+### Prerequisites
+
+- [Bun](https://bun.sh) installed (or Node.js + npm as a fallback)
+
+### Install
+
+```bash
+bun install
+# or
+npm install
+```
+
+### Run the dev server
+
+```bash
+bun dev
+# or
 npm run dev
 ```
 
-## Built with
+### Build for production
 
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS
+```bash
+bun run build
+# or
+npm run build
+```
+
+> Exact script names follow whatever is defined in `package.json` — check there if a command above doesn't match.
+
+## Project structure
+
+```
+src/
+  routes/
+    __root.tsx      # Root layout: header, footer, nav, error/404 boundaries
+    index.tsx       # Landing page — open a frequency / tune in
+    about.tsx       # About the project and creator
+    help.tsx        # How-to guide for hosts and viewers
+  components/
+    DeviceSchematic # Animated device/connection illustration
+    Waveform        # Idle/active waveform indicator
+    QrScanner       # Mobile QR code scanner for joining a room
+  lib/
+    roomCode        # Room code generation + normalization
+public/
+  og-image.png       # Social preview image
+```
+
+## Routes
+
+| Path     | Purpose                                     |
+| -------- | ------------------------------------------- |
+| `/`      | Open a frequency (host) or tune in (viewer) |
+| `/about` | About the project and its creator           |
+| `/help`  | Step-by-step guide for hosts and viewers    |
+
+## How it works
+
+1. A host opens a frequency, which generates a 6-character room code.
+2. The host shares that code (or a QR code) with viewers.
+3. Viewers enter the code — or scan it on mobile — to tune in.
+4. Once connected, the host's screen streams directly to viewers over a peer-to-peer WebRTC connection.
+
+## Credits
+
+Built by **Abdul Basit** ([Archer](https://abdulbasit-archer.vercel.app/)).
+
+## License
+
+No license has been specified for this repository yet. Add a `LICENSE` file if you want to make the terms explicit for other contributors or users.
