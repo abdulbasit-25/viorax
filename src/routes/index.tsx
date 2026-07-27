@@ -30,6 +30,10 @@ function Landing() {
   const navigate = useNavigate();
   const [code, setCode] = useState("");
   const [scannerOpen, setScannerOpen] = useState(false);
+  const isMobile =
+    typeof window !== "undefined" &&
+    /Android|iPhone|iPad|iPod|Mobile/i.test(window.navigator.userAgent);
+  const isDesktop = !isMobile;
 
   const host = () => {
     const c = generateRoomCode();
@@ -88,19 +92,21 @@ function Landing() {
             </p>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
-            <button
-              onClick={host}
-              className="group flex items-center justify-between border border-signal bg-signal px-5 py-4 text-left text-ink transition-colors hover:bg-signal/90"
-            >
-              <div>
-                <div className="font-mono text-[10px] uppercase tracking-[0.3em] opacity-70">
-                  01
+          <div className={`grid gap-4 ${isMobile ? "grid-cols-1" : "sm:grid-cols-2"}`}>
+            {isDesktop && (
+              <button
+                onClick={host}
+                className="group flex items-center justify-between border border-signal bg-signal px-5 py-4 text-left text-ink transition-colors hover:bg-signal/90"
+              >
+                <div>
+                  <div className="font-mono text-[10px] uppercase tracking-[0.3em] opacity-70">
+                    01
+                  </div>
+                  <div className="mt-1 text-base font-semibold">Open a frequency</div>
                 </div>
-                <div className="mt-1 text-base font-semibold">Open a frequency</div>
-              </div>
-              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-            </button>
+                <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+              </button>
+            )}
 
             <form
               onSubmit={join}
@@ -119,14 +125,16 @@ function Landing() {
                   autoComplete="off"
                   className="w-full bg-transparent font-mono text-lg tracking-[0.35em] text-text-primary outline-none placeholder:text-text-muted/40"
                 />
-                <button
-                  type="button"
-                  onClick={() => setScannerOpen(true)}
-                  className="grid h-9 w-9 shrink-0 place-items-center border border-link-cyan text-link-cyan transition-colors hover:bg-link-cyan/10"
-                  aria-label="Scan QR code"
-                >
-                  <Camera className="h-4 w-4" />
-                </button>
+                {isMobile && (
+                  <button
+                    type="button"
+                    onClick={() => setScannerOpen(true)}
+                    className="grid h-9 w-9 shrink-0 place-items-center border border-link-cyan text-link-cyan transition-colors hover:bg-link-cyan/10"
+                    aria-label="Scan QR code"
+                  >
+                    <Camera className="h-4 w-4" />
+                  </button>
+                )}
                 <button
                   type="submit"
                   className="grid h-9 w-9 shrink-0 place-items-center border border-link-cyan text-link-cyan transition-colors hover:bg-link-cyan/10"

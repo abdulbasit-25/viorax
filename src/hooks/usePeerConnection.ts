@@ -146,7 +146,10 @@ export function useHost(
 
     try {
       setError(undefined);
-      const displayStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
+      const displayStream = await navigator.mediaDevices.getDisplayMedia({
+        video: true,
+        audio: true,
+      });
       const sharingStream = new MediaStream();
 
       displayStream.getVideoTracks().forEach((track) => sharingStream.addTrack(track));
