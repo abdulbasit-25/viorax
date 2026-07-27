@@ -44,6 +44,9 @@ export function useHost(
   const dataConnsRef = useRef<Map<string, DataConnection>>(new Map());
   const mediaCallsRef = useRef<Map<string, MediaConnection>>(new Map());
   const streamRef = useRef<MediaStream | null>(null);
+  const displayStreamRef = useRef<MediaStream | null>(null);
+  const micStreamRef = useRef<MediaStream | null>(null);
+  const audioContextRef = useRef<AudioContext | null>(null);
   const eventRef = useRef(onEvent);
   eventRef.current = onEvent;
 
@@ -110,7 +113,13 @@ export function useHost(
     return () => {
       cancelled = true;
       streamRef.current?.getTracks().forEach((t) => t.stop());
+      displayStreamRef.current?.getTracks().forEach((t) => t.stop());
+      micStreamRef.current?.getTracks().forEach((t) => t.stop());
+      audioContextRef.current?.close();
       streamRef.current = null;
+      displayStreamRef.current = null;
+      micStreamRef.current = null;
+      audioContextRef.current = null;
       mediaCallsRef.current.forEach((c) => c.close());
       mediaCallsRef.current.clear();
       dataConnsRef.current.forEach((c) => c.close());
@@ -137,19 +146,56 @@ export function useHost(
 
     try {
       setError(undefined);
-      const stream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: false });
-      streamRef.current = stream;
+      const displayStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
+      const sharingStream = new MediaStream();
+
+      displayStream.getVideoTracks().forEach((track) => sharingStream.addTrack(track));
+
+      let micStream: MediaStream | null = null;
+      let audioContext: AudioContext | null = null;
+      let mixedAudioTrack: MediaStreamTrack | null = null;
+
+      try {
+        micStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+      } catch {
+        micStream = null;
+      }
+
+      if (displayStream.getAudioTracks().length > 0 || micStream) {
+        audioContext = new AudioContext();
+        const destination = audioContext.createMediaStreamDestination();
+
+        if (displayStream.getAudioTracks().length > 0) {
+          const displayAudioSource = audioContext.createMediaStreamSource(displayStream);
+          displayAudioSource.connect(destination);
+        }
+
+        if (micStream) {
+          const micSource = audioContext.createMediaStreamSource(micStream);
+          micSource.connect(destination);
+        }
+
+        mixedAudioTrack = destination.stream.getAudioTracks()[0] ?? null;
+        if (mixedAudioTrack) {
+          sharingStream.addTrack(mixedAudioTrack);
+        }
+      }
+
+      displayStreamRef.current = displayStream;
+      micStreamRef.current = micStream;
+      audioContextRef.current = audioContext;
+      streamRef.current = sharingStream;
       setIsSharing(true);
       setState("live");
       eventRef.current?.("Broadcast started", "success");
 
-      stream.getVideoTracks()[0]?.addEventListener("ended", () => {
+      sharingStream.getVideoTracks()[0]?.addEventListener("ended", () => {
         // User stopped sharing via browser UI
         stopSharingInternal();
       });
 
       dataConnsRef.current.forEach((_, viewerId) => {
-        const call = peer.call(viewerId, stream);
+        const call = peer.call(viewerId, sharingStream);
         if (call) {
           mediaCallsRef.current.set(viewerId, call);
           call.on("close", () => mediaCallsRef.current.delete(viewerId));
@@ -166,7 +212,13 @@ export function useHost(
 
   const stopSharingInternal = useCallback(() => {
     streamRef.current?.getTracks().forEach((t) => t.stop());
+    displayStreamRef.current?.getTracks().forEach((t) => t.stop());
+    micStreamRef.current?.getTracks().forEach((t) => t.stop());
+    audioContextRef.current?.close();
     streamRef.current = null;
+    displayStreamRef.current = null;
+    micStreamRef.current = null;
+    audioContextRef.current = null;
     mediaCallsRef.current.forEach((c) => c.close());
     mediaCallsRef.current.clear();
     setIsSharing(false);
@@ -176,6 +228,9 @@ export function useHost(
 
   const destroy = useCallback(() => {
     streamRef.current?.getTracks().forEach((t) => t.stop());
+    displayStreamRef.current?.getTracks().forEach((t) => t.stop());
+    micStreamRef.current?.getTracks().forEach((t) => t.stop());
+    audioContextRef.current?.close();
     peerRef.current?.destroy();
   }, []);
 
