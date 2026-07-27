@@ -155,20 +155,20 @@ function RootComponent() {
                 Help
               </Link>
             </nav>
-            {/* <a
+            <a
               href="https://abdulbasit-archer.vercel.app/"
               target="_blank"
               rel="noopener noreferrer"
               className="font-mono text-sm uppercase tracking-[0.3em] text-text-muted transition-colors hover:text-text-primary"
             >
               Powered by Archer
-            </a> */}
+            </a>
           </div>
         </header>
 
         <Outlet />
 
-        {/* <footer className="border-t border-panel-line px-6 py-6 text-center text-xs text-text-muted">
+        <footer className="border-t border-panel-line px-6 py-6 text-center text-xs text-text-muted">
           <a
             href="https://abdulbasit-archer.vercel.app/"
             target="_blank"
@@ -177,7 +177,7 @@ function RootComponent() {
           >
             Powered by Archer
           </a>
-        </footer> */}
+        </footer>
       </div>
       <Toaster theme="dark" position="bottom-right" />
     </QueryClientProvider>
