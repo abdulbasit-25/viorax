@@ -1,100 +1,149 @@
-# Signal Room
+# 📡 Signal Room
 
-**Live browser-to-browser screen sharing. No accounts, no downloads, no signal lost.**
+**Live browser-to-browser screen sharing. No accounts. No downloads. Just connect and share.**
 
-🔗 **Live app:** [viorax.vercel.app](https://viorax.vercel.app)
+🌐 **Live Demo:** https://viorax.vercel.app
 
-Open a frequency, share the code, go live. Signal Room is a frontend-only, peer-to-peer screen sharing tool — tune in on a 6-character room code from any device and watch, or broadcast your screen to anyone who joins.
+Signal Room is a lightweight, frontend-only screen sharing application that lets anyone broadcast their screen instantly using a simple 6-character room code. Built on WebRTC, all streaming happens directly between peers, meaning no recordings, no stored video, and no unnecessary accounts.
 
-## Features
+---
 
-- 📡 **No accounts** — open a frequency and start broadcasting immediately
-- 🔢 **Frequency-style room codes** — simple 6-character codes instead of links or logins
-- 🔗 **Peer-to-peer** — direct WebRTC connection between devices, nothing recorded or stored on a server
-- 👥 **Multi-viewer** — one host can broadcast to multiple connected viewers
-- 📷 **QR join** — scan a code on mobile instead of typing it in
-- 📱 **Responsive** — desktop hosting, with a touch-friendly join flow on mobile
+## ✨ Features
 
-## Tech stack
+- 📡 **Instant Broadcasting** — Start sharing your screen in seconds.
+- 🔢 **6-Character Room Codes** — Easy-to-share frequency-style codes.
+- 🔒 **Peer-to-Peer Streaming** — Direct WebRTC connections with no video stored on a server.
+- 👥 **Multi-Viewer Support** — Broadcast to multiple viewers simultaneously.
+- 📱 **QR Code Joining** — Scan and join instantly from a mobile device.
+- 💻 **Fully Responsive** — Optimized for desktop hosts and mobile viewers.
+- ⚡ **No Accounts Required** — Open a room and start immediately.
 
-- [React](https://react.dev) + [TypeScript](https://www.typescriptlang.org)
-- [TanStack Router](https://tanstack.com/router) (file-based routing, SSR shell)
-- [TanStack Query](https://tanstack.com/query) for data/query state
-- [Tailwind CSS](https://tailwindcss.com) for styling
-- [Vite](https://vitejs.dev) for the build tooling
-- WebRTC for peer-to-peer screen/video streaming
-- [Bun](https://bun.sh) as the primary package manager/runtime
+---
 
-## Getting started
+## 🚀 Tech Stack
+
+- **React**
+- **TypeScript**
+- **TanStack Router**
+- **TanStack Query**
+- **Tailwind CSS**
+- **Vite**
+- **WebRTC**
+- **Bun** (Primary runtime & package manager)
+
+---
+
+## 📦 Installation
 
 ### Prerequisites
 
-- [Bun](https://bun.sh) installed (or Node.js + npm as a fallback)
+- Bun (recommended)
+- or Node.js with npm
 
-### Install
+### Install Dependencies
 
 ```bash
 bun install
+
 # or
+
 npm install
 ```
 
-### Run the dev server
+### Start Development Server
 
 ```bash
 bun dev
+
 # or
+
 npm run dev
 ```
 
-### Build for production
+### Build for Production
 
 ```bash
 bun run build
+
 # or
+
 npm run build
 ```
 
-> Exact script names follow whatever is defined in `package.json` — check there if a command above doesn't match.
+---
 
-## Project structure
+## 📁 Project Structure
 
 ```
 src/
-  routes/
-    __root.tsx      # Root layout: header, footer, nav, error/404 boundaries
-    index.tsx       # Landing page — open a frequency / tune in
-    about.tsx       # About the project and creator
-    help.tsx        # How-to guide for hosts and viewers
-  components/
-    DeviceSchematic # Animated device/connection illustration
-    Waveform        # Idle/active waveform indicator
-    QrScanner       # Mobile QR code scanner for joining a room
-  lib/
-    roomCode        # Room code generation + normalization
+│
+├── routes/
+│   ├── __root.tsx
+│   ├── index.tsx
+│   ├── about.tsx
+│   └── help.tsx
+│
+├── components/
+│   ├── DeviceSchematic
+│   ├── Waveform
+│   └── QrScanner
+│
+├── lib/
+│   └── roomCode
+│
 public/
-  og-image.png       # Social preview image
+└── og-image.png
 ```
 
-## Routes
+---
 
-| Path     | Purpose                                     |
-| -------- | ------------------------------------------- |
-| `/`      | Open a frequency (host) or tune in (viewer) |
-| `/about` | About the project and its creator           |
-| `/help`  | Step-by-step guide for hosts and viewers    |
+## 📍 Routes
 
-## How it works
+| Route    | Description                      |
+| -------- | -------------------------------- |
+| `/`      | Create or join a Signal Room     |
+| `/about` | About the project and creator    |
+| `/help`  | User guide for hosts and viewers |
 
-1. A host opens a frequency, which generates a 6-character room code.
-2. The host shares that code (or a QR code) with viewers.
-3. Viewers enter the code — or scan it on mobile — to tune in.
-4. Once connected, the host's screen streams directly to viewers over a peer-to-peer WebRTC connection.
+---
 
-## Credits
+## ⚙️ How It Works
 
-Built by **Abdul Basit** ([Archer](https://abdulbasit-archer.vercel.app/)).
+1. Create a new Signal Room.
+2. Receive a unique 6-character room code.
+3. Share the code or QR code with others.
+4. Viewers join using the code or by scanning the QR code.
+5. Once connected, your screen streams directly through WebRTC with no intermediary video storage.
 
-## License
+---
 
-No license has been specified for this repository yet. Add a `LICENSE` file if you want to make the terms explicit for other contributors or users.
+## 🔒 Privacy
+
+Signal Room is built around peer-to-peer communication.
+
+- No user accounts
+- No uploaded recordings
+- No cloud video storage
+- Direct WebRTC connections between participants
+
+---
+
+## 🌐 Live Demo
+
+https://viorax.vercel.app
+
+---
+
+## 👨‍💻 Author
+
+**Abdul Basit (Archer)**
+
+Portfolio: https://abdulbasit-archer.vercel.app
+
+---
+
+## 📄 License
+
+This project currently has no license.
+
+If you plan to allow others to use, modify, or contribute to the project, consider adding an MIT License or another open-source license.
