@@ -62,8 +62,9 @@ export function HostDashboard({
         <div className="flex flex-col gap-3">
           {!isSharing ? (
             <button
+              type="button"
               onClick={startSharing}
-              disabled={state === "initializing" || state === "error" || !canShareScreen}
+              disabled={state === "initializing" || state === "error"}
               className="group flex items-center justify-between border border-signal bg-signal px-6 py-5 text-left text-ink transition-colors hover:bg-signal/90 disabled:opacity-40"
             >
               <div>
