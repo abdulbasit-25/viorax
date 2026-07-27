@@ -3,7 +3,8 @@ import Peer, { type MediaConnection, type DataConnection } from "peerjs";
 import { roomToPeerId } from "@/lib/roomCode";
 
 export type PeerRole = "host" | "viewer";
-export type ConnState = "initializing" | "waiting" | "connected" | "live" | "error" | "disconnected";
+export type ConnState =
+  "initializing" | "waiting" | "connected" | "live" | "error" | "disconnected";
 
 export interface HostState {
   role: "host";
@@ -11,6 +12,7 @@ export interface HostState {
   state: ConnState;
   viewerCount: number;
   isSharing: boolean;
+  canShareScreen: boolean;
   error?: string;
   startSharing: () => Promise<void>;
   stopSharing: () => void;
@@ -26,11 +28,18 @@ export interface ViewerState {
   destroy: () => void;
 }
 
-export function useHost(roomCode: string, onEvent?: (msg: string, kind?: "info" | "error" | "success") => void): HostState {
+export function useHost(
+  roomCode: string,
+  onEvent?: (msg: string, kind?: "info" | "error" | "success") => void,
+): HostState {
   const [state, setState] = useState<ConnState>("initializing");
   const [viewerCount, setViewerCount] = useState(0);
   const [isSharing, setIsSharing] = useState(false);
   const [error, setError] = useState<string | undefined>();
+  const canShareScreen =
+    typeof window !== "undefined" &&
+    typeof navigator !== "undefined" &&
+    typeof navigator.mediaDevices?.getDisplayMedia === "function";
   const peerRef = useRef<Peer | null>(null);
   const dataConnsRef = useRef<Map<string, DataConnection>>(new Map());
   const mediaCallsRef = useRef<Map<string, MediaConnection>>(new Map());
@@ -66,7 +75,10 @@ export function useHost(roomCode: string, onEvent?: (msg: string, kind?: "info" 
       conn.on("close", () => {
         dataConnsRef.current.delete(conn.peer);
         const call = mediaCallsRef.current.get(conn.peer);
-        if (call) { call.close(); mediaCallsRef.current.delete(conn.peer); }
+        if (call) {
+          call.close();
+          mediaCallsRef.current.delete(conn.peer);
+        }
         setViewerCount(dataConnsRef.current.size);
         if (dataConnsRef.current.size === 0) {
           setState((s) => (s === "live" || s === "connected" ? "waiting" : s));
@@ -90,7 +102,9 @@ export function useHost(roomCode: string, onEvent?: (msg: string, kind?: "info" 
     peer.on("disconnected", () => {
       if (cancelled) return;
       // Try to reconnect
-      try { peer.reconnect(); } catch {}
+      try {
+        peer.reconnect();
+      } catch {}
     });
 
     return () => {
@@ -109,7 +123,20 @@ export function useHost(roomCode: string, onEvent?: (msg: string, kind?: "info" 
   const startSharing = useCallback(async () => {
     const peer = peerRef.current;
     if (!peer) return;
+
+    if (!canShareScreen) {
+      const message =
+        typeof navigator !== "undefined" &&
+        /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)
+          ? "Screen sharing isn’t supported in mobile browsers. Open this app on a desktop browser to broadcast your screen."
+          : "This browser does not support screen sharing.";
+      setError(message);
+      eventRef.current?.(message, "error");
+      return;
+    }
+
     try {
+      setError(undefined);
       const stream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: false });
       streamRef.current = stream;
       setIsSharing(true);
@@ -135,7 +162,7 @@ export function useHost(roomCode: string, onEvent?: (msg: string, kind?: "info" 
         eventRef.current?.(err?.message || "Could not access screen.", "error");
       }
     }
-  }, []);
+  }, [canShareScreen]);
 
   const stopSharingInternal = useCallback(() => {
     streamRef.current?.getTracks().forEach((t) => t.stop());
@@ -159,13 +186,17 @@ export function useHost(roomCode: string, onEvent?: (msg: string, kind?: "info" 
     viewerCount,
     isSharing,
     error,
+    canShareScreen,
     startSharing,
     stopSharing: stopSharingInternal,
     destroy,
   };
 }
 
-export function useViewer(roomCode: string, onEvent?: (msg: string, kind?: "info" | "error" | "success") => void): ViewerState {
+export function useViewer(
+  roomCode: string,
+  onEvent?: (msg: string, kind?: "info" | "error" | "success") => void,
+): ViewerState {
   const [state, setState] = useState<ConnState>("initializing");
   const [error, setError] = useState<string | undefined>();
   const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
