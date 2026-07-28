@@ -1,10 +1,10 @@
-# 📡 Signal Room
+# 📡 Viorax
 
 **Live browser-to-browser screen sharing. No accounts. No downloads. Just connect and share.**
 
-🌐 **Live Demo:** https://Signal Room.vercel.app
+🌐 **Live Demo:** https://Viorax.vercel.app
 
-Signal Room is a lightweight, frontend-only screen sharing application that lets anyone broadcast their screen instantly using a simple 6-character room code. Built on WebRTC, all streaming happens directly between peers, meaning no recordings, no stored video, and no unnecessary accounts.
+Viorax is a lightweight, frontend-only screen sharing application that lets anyone broadcast their screen instantly using a simple 6-character room code. Built on WebRTC, all streaming happens directly between peers, meaning no recordings, no stored video, and no unnecessary accounts.
 
 ---
 
@@ -101,7 +101,7 @@ public/
 
 | Route    | Description                      |
 | -------- | -------------------------------- |
-| `/`      | Create or join a Signal Room     |
+| `/`      | Create or join a Viorax          |
 | `/about` | About the project and creator    |
 | `/help`  | User guide for hosts and viewers |
 
@@ -109,7 +109,7 @@ public/
 
 ## ⚙️ How It Works
 
-1. Create a new Signal Room.
+1. Create a new Viorax.
 2. Receive a unique 6-character room code.
 3. Share the code or QR code with others.
 4. Viewers join using the code or by scanning the QR code.
@@ -119,7 +119,7 @@ public/
 
 ## 🔒 Privacy
 
-Signal Room is built around peer-to-peer communication.
+Viorax is built around peer-to-peer communication.
 
 - No user accounts
 - No uploaded recordings
@@ -130,7 +130,7 @@ Signal Room is built around peer-to-peer communication.
 
 ## 🌐 Live Demo
 
-https://Signal Room.vercel.app
+https://Viorax.vercel.app
 
 ---
 

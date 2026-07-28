@@ -16,17 +16,17 @@ export const Route = createFileRoute("/room/$roomId")({
   validateSearch: searchSchema,
   head: ({ params }) => ({
     meta: [
-      { title: `Frequency ${params.roomId} — Signal Room` },
+      { title: `Frequency ${params.roomId} — Viorax` },
       {
         name: "description",
         content: `Tune in on frequency ${params.roomId} to receive a live screen broadcast.`,
       },
       { property: "og:title", content: `Frequency ${params.roomId}` },
-      { property: "og:description", content: "Live screen broadcast via Signal Room." },
-      { property: "og:image", content: "https://Signal Room.vercel.app/og-image.jpg" },
+      { property: "og:description", content: "Live screen broadcast via Viorax." },
+      { property: "og:image", content: "https://Viorax.vercel.app/og-image.jpg" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: "https://Signal Room.vercel.app/og-image.jpg" },
-      { name: "twitter:image:alt", content: "Signal Room logo and screen sharing preview" },
+      { name: "twitter:image", content: "https://Viorax.vercel.app/og-image.jpg" },
+      { name: "twitter:image:alt", content: "Viorax logo and screen sharing preview" },
       { name: "robots", content: "noindex" },
     ],
   }),

@@ -13,13 +13,13 @@ import { Toaster } from "@/components/ui/sonner";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
-const SITE_URL = "https://Signal Room.vercel.app";
-const SITE_NAME = "Signal Room";
-const DEFAULT_TITLE = "Signal Room — Live screen sharing between devices";
+const SITE_URL = "https://Viorax.vercel.app";
+const SITE_NAME = "Viorax";
+const DEFAULT_TITLE = "Viorax — Live screen sharing between devices";
 const DEFAULT_DESCRIPTION =
   "Share your screen instantly with a simple room code. No accounts, no downloads, peer-to-peer live broadcasting.";
 const DEFAULT_IMAGE = `${SITE_URL}/og-image.jpg`;
-const DEFAULT_IMAGE_ALT = "Signal Room logo and screen sharing preview";
+const DEFAULT_IMAGE_ALT = "Viorax logo and screen sharing preview";
 const ARCHER_URL = "https://abdulbasit-archer.vercel.app/";
 
 const NAV_LINKS = [
@@ -179,7 +179,7 @@ function RootComponent() {
               to="/"
               className="font-mono text-sm uppercase tracking-[0.3em] text-text-muted hover:text-text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal"
             >
-              Signal Room
+              Viorax
             </Link>
 
             <button

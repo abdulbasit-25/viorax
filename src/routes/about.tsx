@@ -4,8 +4,8 @@ import { Globe, Github, Twitter } from "lucide-react";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About — Signal Room" },
-      { name: "description", content: "Learn about the creator and the Signal Room project." },
+      { title: "About — Viorax" },
+      { name: "description", content: "Learn about the creator and the Viorax project." },
     ],
   }),
   component: About,
@@ -39,7 +39,7 @@ function About() {
           <div className="flex items-center gap-4">
             <img
               src="/og-image.jpg"
-              alt="Signal Room logo"
+              alt="Viorax logo"
               width={56}
               height={56}
               className="h-12 w-12 shrink-0 rounded border border-panel-line bg-panel object-cover sm:h-14 sm:w-14"
@@ -52,12 +52,12 @@ function About() {
             <div className="space-y-2">
               <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-signal">About</p>
               <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
-                Signal Room
+                Viorax
               </h1>
             </div>
           </div>
           <p className="max-w-2xl text-sm leading-relaxed text-text-muted">
-            Signal Room is a lightweight browser-based screen sharing experience built for quick
+            Viorax is a lightweight browser-based screen sharing experience built for quick
             peer-to-peer connection without accounts or downloads.
           </p>
         </div>
@@ -100,9 +100,8 @@ function About() {
         <section className="space-y-4 rounded border border-panel-line bg-panel p-5 sm:p-6">
           <h2 className="text-xl font-semibold">Project</h2>
           <p className="text-sm leading-relaxed text-text-muted">
-            Signal Room uses peer-to-peer browser technology to broadcast a shared screen to
-            connected devices. It focuses on direct connections, no sign-in required, and a minimal
-            interface.
+            Viorax uses peer-to-peer browser technology to broadcast a shared screen to connected
+            devices. It focuses on direct connections, no sign-in required, and a minimal interface.
           </p>
           <ul className="list-disc space-y-2 pl-5 text-sm leading-relaxed text-text-muted marker:text-signal">
             <li>No user accounts or registration</li>
