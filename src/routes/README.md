@@ -2,7 +2,7 @@
 
 **Live browser-to-browser screen sharing. No accounts. No downloads. Just connect and share.**
 
-🌐 **Live Demo:** https://viorax.vercel.app
+🌐 **Live Demo:** https://Signal Room.vercel.app
 
 Signal Room is a lightweight, frontend-only screen sharing application that lets anyone broadcast their screen instantly using a simple 6-character room code. Built on WebRTC, all streaming happens directly between peers, meaning no recordings, no stored video, and no unnecessary accounts.
 
@@ -130,7 +130,7 @@ Signal Room is built around peer-to-peer communication.
 
 ## 🌐 Live Demo
 
-https://viorax.vercel.app
+https://Signal Room.vercel.app
 
 ---
 

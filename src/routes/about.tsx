@@ -38,7 +38,7 @@ function About() {
         <div className="space-y-4">
           <div className="flex items-center gap-4">
             <img
-              src="/og-image.png"
+              src="/og-image.jpg"
               alt="Signal Room logo"
               width={56}
               height={56}
@@ -76,7 +76,7 @@ function About() {
               rel="noopener noreferrer"
               className={`text-link-cyan underline underline-offset-2 hover:text-link-cyan/80 ${focusRing}`}
             >
-              the creator's website
+              the creator's Portfolio
             </a>{" "}
             for additional projects and updates.
           </p>

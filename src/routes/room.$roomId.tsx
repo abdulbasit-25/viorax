@@ -17,9 +17,16 @@ export const Route = createFileRoute("/room/$roomId")({
   head: ({ params }) => ({
     meta: [
       { title: `Frequency ${params.roomId} — Signal Room` },
-      { name: "description", content: `Tune in on frequency ${params.roomId} to receive a live screen broadcast.` },
+      {
+        name: "description",
+        content: `Tune in on frequency ${params.roomId} to receive a live screen broadcast.`,
+      },
       { property: "og:title", content: `Frequency ${params.roomId}` },
       { property: "og:description", content: "Live screen broadcast via Signal Room." },
+      { property: "og:image", content: "https://Signal Room.vercel.app/og-image.jpg" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "https://Signal Room.vercel.app/og-image.jpg" },
+      { name: "twitter:image:alt", content: "Signal Room logo and screen sharing preview" },
       { name: "robots", content: "noindex" },
     ],
   }),
@@ -35,7 +42,9 @@ function RoomPage() {
   const code = useMemo(() => normalizeRoomCode(roomId), [roomId]);
   const isHost = search.role === "host";
 
-  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (code.length !== 6) {
@@ -60,18 +69,30 @@ function toastEvent(msg: string, kind?: "info" | "error" | "success") {
 function HostRoom({ code }: { code: string }) {
   const navigate = useNavigate();
   const host = useHost(code, toastEvent);
-  const joinUrl = typeof window !== "undefined" ? `${window.location.origin}/room/${code}` : `/room/${code}`;
+  const joinUrl =
+    typeof window !== "undefined" ? `${window.location.origin}/room/${code}` : `/room/${code}`;
 
   const statusLabel =
-    host.state === "initializing" ? "Opening"
-      : host.state === "waiting" ? "Standby"
-      : host.state === "connected" ? "Linked"
-      : host.state === "live" ? "Live"
-      : host.state === "error" ? "Error"
-      : "—";
+    host.state === "initializing"
+      ? "Opening"
+      : host.state === "waiting"
+        ? "Standby"
+        : host.state === "connected"
+          ? "Linked"
+          : host.state === "live"
+            ? "Live"
+            : host.state === "error"
+              ? "Error"
+              : "—";
 
   const barState =
-    host.state === "live" ? "live" : host.state === "connected" ? "connected" : host.state === "error" ? "error" : "idle";
+    host.state === "live"
+      ? "live"
+      : host.state === "connected"
+        ? "connected"
+        : host.state === "error"
+          ? "error"
+          : "idle";
 
   return (
     <main className="min-h-screen bg-ink">
@@ -80,11 +101,16 @@ function HostRoom({ code }: { code: string }) {
         role="Host"
         status={barState}
         statusLabel={statusLabel}
-        onDisconnect={() => { host.destroy(); navigate({ to: "/" }); }}
+        onDisconnect={() => {
+          host.destroy();
+          navigate({ to: "/" });
+        }}
       />
       {host.state === "error" ? (
         <div className="mx-auto max-w-lg px-6 py-20 text-center">
-          <p className="font-mono text-xs uppercase tracking-[0.3em] text-destructive">Frequency error</p>
+          <p className="font-mono text-xs uppercase tracking-[0.3em] text-destructive">
+            Frequency error
+          </p>
           <p className="mt-4 text-sm text-text-muted">{host.error}</p>
         </div>
       ) : (
@@ -99,16 +125,28 @@ function ViewerRoom({ code }: { code: string }) {
   const viewer = useViewer(code, toastEvent);
 
   const statusLabel =
-    viewer.state === "initializing" ? "Tuning"
-      : viewer.state === "waiting" ? "Reaching"
-      : viewer.state === "connected" ? "Linked"
-      : viewer.state === "live" ? "Receiving"
-      : viewer.state === "disconnected" ? "Off-air"
-      : viewer.state === "error" ? "Error"
-      : "—";
+    viewer.state === "initializing"
+      ? "Tuning"
+      : viewer.state === "waiting"
+        ? "Reaching"
+        : viewer.state === "connected"
+          ? "Linked"
+          : viewer.state === "live"
+            ? "Receiving"
+            : viewer.state === "disconnected"
+              ? "Off-air"
+              : viewer.state === "error"
+                ? "Error"
+                : "—";
 
   const barState =
-    viewer.state === "live" ? "live" : viewer.state === "connected" ? "connected" : viewer.state === "error" ? "error" : "idle";
+    viewer.state === "live"
+      ? "live"
+      : viewer.state === "connected"
+        ? "connected"
+        : viewer.state === "error"
+          ? "error"
+          : "idle";
 
   return (
     <main className="min-h-screen bg-ink">
@@ -117,7 +155,10 @@ function ViewerRoom({ code }: { code: string }) {
         role="Viewer"
         status={barState}
         statusLabel={statusLabel}
-        onDisconnect={() => { viewer.destroy(); navigate({ to: "/" }); }}
+        onDisconnect={() => {
+          viewer.destroy();
+          navigate({ to: "/" });
+        }}
       />
       <ViewerDashboard viewer={viewer} roomCode={code} />
     </main>

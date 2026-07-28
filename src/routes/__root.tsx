@@ -13,7 +13,13 @@ import { Toaster } from "@/components/ui/sonner";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
-const SITE_URL = "https://signal-room.example.com"; // TODO: replace with your real production URL
+const SITE_URL = "https://Signal Room.vercel.app";
+const SITE_NAME = "Signal Room";
+const DEFAULT_TITLE = "Signal Room — Live screen sharing between devices";
+const DEFAULT_DESCRIPTION =
+  "Share your screen instantly with a simple room code. No accounts, no downloads, peer-to-peer live broadcasting.";
+const DEFAULT_IMAGE = `${SITE_URL}/og-image.jpg`;
+const DEFAULT_IMAGE_ALT = "Signal Room logo and screen sharing preview";
 const ARCHER_URL = "https://abdulbasit-archer.vercel.app/";
 
 const NAV_LINKS = [
@@ -99,27 +105,27 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Signal Room — Live screen sharing between devices" },
-      {
-        name: "description",
-        content:
-          "Tune in on a frequency and broadcast your screen to any device. Zero setup, no accounts.",
-      },
+      { title: DEFAULT_TITLE },
+      { name: "description", content: DEFAULT_DESCRIPTION },
       { name: "theme-color", content: "#0b0b0f" },
-      { property: "og:title", content: "Signal Room" },
-      {
-        property: "og:description",
-        content: "Live screen sharing between devices — no accounts, no downloads.",
-      },
+      { name: "robots", content: "index,follow" },
+      { property: "og:title", content: DEFAULT_TITLE },
+      { property: "og:description", content: DEFAULT_DESCRIPTION },
       { property: "og:type", content: "website" },
       { property: "og:url", content: SITE_URL },
-      { property: "og:image", content: `${SITE_URL}/og-image.png` },
+      { property: "og:site_name", content: SITE_NAME },
+      { property: "og:locale", content: "en_US" },
+      { property: "og:image", content: DEFAULT_IMAGE },
+      { property: "og:image:secure_url", content: DEFAULT_IMAGE },
+      { property: "og:image:type", content: "image/jpeg" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:image:alt", content: DEFAULT_IMAGE_ALT },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Signal Room" },
-      {
-        name: "twitter:description",
-        content: "Live screen sharing between devices — no accounts, no downloads.",
-      },
+      { name: "twitter:title", content: DEFAULT_TITLE },
+      { name: "twitter:description", content: DEFAULT_DESCRIPTION },
+      { name: "twitter:image", content: DEFAULT_IMAGE },
+      { name: "twitter:image:alt", content: DEFAULT_IMAGE_ALT },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
