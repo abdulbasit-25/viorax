@@ -6,6 +6,15 @@
 
 Viorax is a lightweight, frontend-only screen sharing application that lets anyone broadcast their screen instantly using a simple 6-character room code. Built on WebRTC, all streaming happens directly between peers, meaning no recordings, no stored video, and no unnecessary accounts.
 
+## 📸 App Preview
+
+<div align="center">
+  <img src="src/assests/images%20(1).png" alt="Viorax interface preview" width="320" />
+  <img src="src/assests/images%20(2).png" alt="Viorax sharing experience" width="320" />
+  <img src="src/assests/images%20(3).png" alt="Viorax mobile-friendly interface" width="320" />
+  <img src="src/assests/images%20(4).png" alt="Viorax QR joining flow" width="320" />
+</div>
+
 ---
 
 ## ✨ Features
