@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="src/assests/logo.jpg" alt="Viorax logo" width="90" style="border-radius: 50%;" />
+  <img src="src/assests/favicon.ico" alt="Viorax logo" width="90" style="border-radius: 50%;" />
 
 # 📡 Viorax
 
