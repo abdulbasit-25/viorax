@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="src/assests/logo.jpg" alt="Viorax logo" width="120" />
+  <img src="src/assests/logo.jpg" alt="Viorax logo" width="90" style="border-radius: 50%;" />
 
 # 📡 Viorax
 
@@ -12,12 +12,28 @@ Viorax is a lightweight, frontend-only screen sharing application that lets anyo
 
 ## 📸 App Preview
 
+**Desktop experience**
+
 <div align="center">
-  <img src="src/assests/desktop-home.png" alt="Viorax desktop home screen" width="320" />
-  <img src="src/assests/connection established.png" alt="Viorax connection established screen" width="320" />
-  <img src="src/assests/mobile view.png" alt="Viorax mobile view" width="320" />
-  <img src="src/assests/help section.jpg" alt="Viorax help section" width="320" />
-  <img src="src/assests/about section.jpg" alt="Viorax about section" width="320" />
+  <img src="src/assests/desktop-home.png" alt="Viorax desktop home screen" width="400" />
+  &nbsp;&nbsp;
+  <img src="src/assests/connection established.png" alt="Viorax connection established screen" width="400" />
+  <br/>
+  <sub><b>Desktop Home</b> — launch or join a session &nbsp;•&nbsp; <b>Connection Established</b> — live peer link status</sub>
+</div>
+
+<br/>
+
+**Mobile & content screens**
+
+<div align="center">
+  <img src="src/assests/mobile view.png" alt="Viorax mobile view" width="200" />
+  &nbsp;&nbsp;
+  <img src="src/assests/about section.jpg" alt="Viorax about section" width="200" />
+  &nbsp;&nbsp;
+  <img src="src/assests/help section.jpg" alt="Viorax help section" width="200" />
+  <br/>
+  <sub><b>Mobile View</b> &nbsp;•&nbsp; <b>About Section</b> &nbsp;•&nbsp; <b>Help Section</b></sub>
 </div>
 
 ### 🧭 Key Screens
@@ -25,8 +41,8 @@ Viorax is a lightweight, frontend-only screen sharing application that lets anyo
 - **Desktop Home** — launch or join a session from the main experience
 - **Connection Established** — see the live connection state once peers are linked
 - **Mobile View** — responsive interface optimized for phones and tablets
-- **Help Section** — guided usage for first-time hosts and viewers
 - **About Section** — learn more about the project and its creator
+- **Help Section** — guided usage for first-time hosts and viewers
 
 ---
 
