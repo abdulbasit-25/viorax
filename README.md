@@ -1,8 +1,12 @@
+<div align="center">
+  <img src="src/assests/logo.jpg" alt="Viorax logo" width="120" />
+
 # 📡 Viorax
 
 **Live browser-to-browser screen sharing. No accounts. No downloads. Just connect and share.**
 
 🌐 **Live Demo:** https://Viorax.vercel.app
+</div>
 
 Viorax is a lightweight, frontend-only screen sharing application that lets anyone broadcast their screen instantly using a simple 6-character room code. Built on WebRTC, all streaming happens directly between peers, meaning no recordings, no stored video, and no unnecessary accounts.
 
@@ -13,6 +17,7 @@ Viorax is a lightweight, frontend-only screen sharing application that lets anyo
   <img src="src/assests/connection established.png" alt="Viorax connection established screen" width="320" />
   <img src="src/assests/mobile view.png" alt="Viorax mobile view" width="320" />
   <img src="src/assests/help section.jpg" alt="Viorax help section" width="320" />
+  <img src="src/assests/about section.jpg" alt="Viorax about section" width="320" />
 </div>
 
 ### 🧭 Key Screens
@@ -21,6 +26,7 @@ Viorax is a lightweight, frontend-only screen sharing application that lets anyo
 - **Connection Established** — see the live connection state once peers are linked
 - **Mobile View** — responsive interface optimized for phones and tablets
 - **Help Section** — guided usage for first-time hosts and viewers
+- **About Section** — learn more about the project and its creator
 
 ---
 
@@ -92,6 +98,14 @@ npm run build
 
 ```
 src/
+│
+├── assests/
+│   ├── logo.jpg
+│   ├── desktop-home.png
+│   ├── connection established.png
+│   ├── mobile view.png
+│   ├── help section.jpg
+│   └── about section.jpg
 │
 ├── routes/
 │   ├── __root.tsx
