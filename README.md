@@ -176,4 +176,4 @@ Portfolio: https://abdulbasit-archer.vercel.app
 
 This project currently has no license.
 
-If you plan to allow others to use, modify, or contribute to the project, consider adding an MIT License or another open-source license.
+<!-- If you plan to allow others to use, modify, or contribute to the project, consider adding an MIT License or another open-source license. -->
