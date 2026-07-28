@@ -9,11 +9,18 @@ Viorax is a lightweight, frontend-only screen sharing application that lets anyo
 ## 📸 App Preview
 
 <div align="center">
-  <img src="src/assests/images%20(1).png" alt="Viorax interface preview" width="320" />
-  <img src="src/assests/images%20(2).png" alt="Viorax sharing experience" width="320" />
-  <img src="src/assests/images%20(3).png" alt="Viorax mobile-friendly interface" width="320" />
-  <img src="src/assests/images%20(4).png" alt="Viorax QR joining flow" width="320" />
+  <img src="src/assests/desktop-home.png" alt="Viorax desktop home screen" width="320" />
+  <img src="src/assests/connection established.png" alt="Viorax connection established screen" width="320" />
+  <img src="src/assests/mobile view.png" alt="Viorax mobile view" width="320" />
+  <img src="src/assests/help section.jpg" alt="Viorax help section" width="320" />
 </div>
+
+### 🧭 Key Screens
+
+- **Desktop Home** — launch or join a session from the main experience
+- **Connection Established** — see the live connection state once peers are linked
+- **Mobile View** — responsive interface optimized for phones and tablets
+- **Help Section** — guided usage for first-time hosts and viewers
 
 ---
 
