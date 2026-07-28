@@ -5,6 +5,15 @@
 
 **Live browser-to-browser screen sharing. No accounts. No downloads. Just connect and share.**
 
+[![Live Demo](https://img.shields.io/badge/demo-live-brightgreen?style=flat-square)](https://Viorax.vercel.app)
+![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-blue?style=flat-square&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-Bundler-646CFF?style=flat-square&logo=vite&logoColor=white)
+![Bun](https://img.shields.io/badge/Bun-Runtime-000000?style=flat-square&logo=bun&logoColor=white)
+![WebRTC](https://img.shields.io/badge/WebRTC-P2P-333333?style=flat-square&logo=webrtc&logoColor=white)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-ff69b4?style=flat-square)](#-contributing)
+![License](https://img.shields.io/badge/license-unlicensed-lightgrey?style=flat-square)
+
 🌐 **Live Demo:** https://Viorax.vercel.app
 </div>
 
@@ -116,6 +125,7 @@ npm run build
 src/
 │
 ├── assests/
+│   ├── favicon.ico
 │   ├── logo.jpg
 │   ├── desktop-home.png
 │   ├── connection established.png
@@ -171,6 +181,17 @@ Viorax is built around peer-to-peer communication.
 - No uploaded recordings
 - No cloud video storage
 - Direct WebRTC connections between participants
+
+---
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome! Feel free to open a pull request or file an issue.
+
+1. Fork the repo
+2. Create your feature branch (`git checkout -b feature/amazing-thing`)
+3. Commit your changes
+4. Push to the branch and open a PR
 
 ---
 
