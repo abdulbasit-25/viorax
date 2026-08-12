@@ -1,0 +1,1 @@
+Tech used: TypeScript, React, Vite, Bun, ESLint
