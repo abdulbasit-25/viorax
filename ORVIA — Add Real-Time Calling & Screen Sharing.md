@@ -1,12 +1,12 @@
-# Velixa — Add Real-Time Calling & Screen Sharing
+# VIORAX — Add Real-Time Calling & Screen Sharing
 
-Transform the existing **Viorax** project into a unified real-time communication application called **Velixa**.
+Transform the existing **Viorax** project into a unified real-time communication application called **VIORAX**.
 
 First, analyze the entire existing codebase and understand how the current room, PeerJS, WebRTC, screen-sharing, QR, routing, and media lifecycle work. **Do not rewrite the application from scratch.** Extend the existing architecture and reuse what is already working.
 
 ## Core Goal
 
-Velixa should allow users to enter a room and choose what they want to do:
+VIORAX should allow users to enter a room and choose what they want to do:
 
 - **Voice Call**
 - **Video Call**
@@ -47,11 +47,11 @@ The application is no longer called **Viorax**.
 
 The new product name is:
 
-**Velixa**
+**VIORAX**
 
 Replace existing user-facing branding throughout the application:
 
-- Viorax → Velixa
+- Viorax → VIORAX
 - Page titles
 - Metadata
 - Navigation
@@ -316,7 +316,7 @@ Do not create duplicate peer connections unnecessarily.
 
 # UX
 
-Make Velixa feel like a polished modern communication product rather than a developer demo.
+Make VIORAX feel like a polished modern communication product rather than a developer demo.
 
 The interface should immediately communicate:
 
@@ -328,7 +328,7 @@ Keep the UI simple, responsive, and intuitive.
 
 Support desktop and mobile layouts where browser capabilities allow it.
 
-Respect the project's existing visual language, but update it so it feels appropriate for the new **Velixa** identity.
+Respect the project's existing visual language, but update it so it feels appropriate for the new **VIORAX** identity.
 
 Do not copy the old Viorax branding.
 
@@ -416,4 +416,4 @@ After implementation:
 
 Do not leave TODO placeholders for core functionality.
 
-The final result should be a functioning **Velixa** real-time communication application where users can enter a room and choose between **voice call, video call, and screen sharing**, all built on the project's existing PeerJS/WebRTC architecture.
+The final result should be a functioning **VIORAX** real-time communication application where users can enter a room and choose between **voice call, video call, and screen sharing**, all built on the project's existing PeerJS/WebRTC architecture.
