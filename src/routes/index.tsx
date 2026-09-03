@@ -10,20 +10,20 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Velixa — Talk, share, connect" },
+      { title: "VIORAX — Talk, share, connect" },
       {
         name: "description",
         content: "Start a voice call, video call, or screen share with a simple room code.",
       },
-      { property: "og:title", content: "Velixa — Talk, share, connect" },
+      { property: "og:title", content: "VIORAX — Talk, share, connect" },
       {
         property: "og:description",
         content: "Talk, share, and connect directly in your browser. No accounts required.",
       },
-      { property: "og:image", content: "https://Velixa.vercel.app/og-image.jpg" },
+      { property: "og:image", content: "https://VIORAX.vercel.app/og-image.jpg" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: "https://Velixa.vercel.app/og-image.jpg" },
-      { name: "twitter:image:alt", content: "Velixa logo and screen sharing preview" },
+      { name: "twitter:image", content: "https://VIORAX.vercel.app/og-image.jpg" },
+      { name: "twitter:image:alt", content: "VIORAX logo and screen sharing preview" },
     ],
   }),
   component: Landing,
@@ -74,7 +74,7 @@ function Landing() {
             <span className="hidden truncate font-mono text-xs uppercase tracking-[0.3em] text-text-muted xs:block">
               Real-time communication
             </span>
-            <span className="font-mono text-sm tracking-widest">Velixa</span>
+            <span className="font-mono text-sm tracking-widest">VIORAX</span>
           </div>
         </div>
         <div className="flex shrink-0 items-center gap-3 font-mono text-[10px] uppercase tracking-[0.3em] text-text-muted">
