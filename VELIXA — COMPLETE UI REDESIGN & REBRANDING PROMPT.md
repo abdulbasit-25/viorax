@@ -1,12 +1,12 @@
-# VELIXA — COMPLETE UI REDESIGN & REBRANDING PROMPT
+# VIORAX — COMPLETE UI REDESIGN & REBRANDING PROMPT
 
 You are working on an existing browser-based real-time communication application currently branded as **Viorax**.
 
 The project is being officially rebranded and redesigned as:
 
-# VELIXA
+# VIORAX
 
-Velixa is a lightweight browser-based communication tool for:
+VIORAX is a lightweight browser-based communication tool for:
 
 - Voice calls
 - Video calls
@@ -17,7 +17,7 @@ Velixa is a lightweight browser-based communication tool for:
 
 The existing PeerJS/WebRTC communication functionality is already implemented and working.
 
-Your task is to **completely redesign and rebrand the existing frontend into Velixa** while preserving the existing application architecture and functionality.
+Your task is to **completely redesign and rebrand the existing frontend into VIORAX** while preserving the existing application architecture and functionality.
 
 ---
 
@@ -63,13 +63,13 @@ DO NOT:
 
 The goal is:
 
-> **Same working communication system + completely new Velixa visual identity and UX.**
+> **Same working communication system + completely new VIORAX visual identity and UX.**
 
 ---
 
 # 2. BRAND CHANGE
 
-Replace the old **Viorax** identity with **Velixa** throughout the application.
+Replace the old **Viorax** identity with **VIORAX** throughout the application.
 
 Search the entire project for:
 
@@ -88,7 +88,7 @@ Search the entire project for:
 
 Replace user-facing branding with:
 
-# Velixa
+# VIORAX
 
 Do not leave visible Viorax references anywhere in the application.
 
@@ -112,9 +112,9 @@ After the redesign, run a project-wide search and confirm there are no remaining
 
 ---
 
-# 3. VELIXA PRODUCT PERSONALITY
+# 3. VIORAX PRODUCT PERSONALITY
 
-Velixa should feel:
+VIORAX should feel:
 
 ### Direct
 
@@ -204,22 +204,22 @@ It should NOT feel:
 
 # 5. COLOR SYSTEM
 
-Replace the existing visual palette with these exact Velixa tokens.
+Replace the existing visual palette with these exact VIORAX tokens.
 
 ```css
 :root {
-  --ink: #0E1116;
-  --panel: #171B22;
-  --panel-line: #262C36;
+  --ink: #0e1116;
+  --panel: #171b22;
+  --panel-line: #262c36;
 
-  --signal: #F2A93B;
-  --link-cyan: #5AC8C8;
+  --signal: #f2a93b;
+  --link-cyan: #5ac8c8;
 
-  --text-primary: #E4E7EC;
-  --text-muted: #8B93A1;
+  --text-primary: #e4e7ec;
+  --text-muted: #8b93a1;
 
-  --destructive: #E5484D;
-  --white: #FFFFFF;
+  --destructive: #e5484d;
+  --white: #ffffff;
 }
 ```
 
@@ -410,7 +410,7 @@ Do not compress everything into dense dashboard layouts.
 
 # 10. LANDING PAGE REDESIGN
 
-Completely redesign the landing page around the Velixa identity.
+Completely redesign the landing page around the VIORAX identity.
 
 The first viewport should immediately communicate:
 
@@ -432,7 +432,7 @@ Enter room code
 Suggested structure:
 
 ```text
-VELIXA
+VIORAX
 
 REAL-TIME COMMUNICATION
 
@@ -460,18 +460,18 @@ The application is a communication tool.
 
 # 11. HEADER
 
-Create a compact Velixa header.
+Create a compact VIORAX header.
 
 Example:
 
 ```text
-VELIXA                         About   Help
+VIORAX                         About   Help
 ```
 
 Inside a room:
 
 ```text
-VELIXA    ROOM A7K9-X2P4    HOST    ● READY    EXIT
+VIORAX    ROOM A7K9-X2P4    HOST    ● READY    EXIT
 ```
 
 The room header should prioritize operational information.
@@ -565,7 +565,7 @@ Desktop layout:
 
 ```text
 ┌───────────────────────────────────────────────────────┐
-│ VELIXA   ROOM A7K9-X2P4   HOST   ● READY       EXIT  │
+│ VIORAX   ROOM A7K9-X2P4   HOST   ● READY       EXIT  │
 ├───────────────────────────────────────────┬───────────┤
 │                                           │           │
 │                                           │   ROOM    │
@@ -603,7 +603,7 @@ Clearly show:
 
 Do not create a completely different visual experience for viewers.
 
-Host and viewer should feel like two roles inside the same Velixa product.
+Host and viewer should feel like two roles inside the same VIORAX product.
 
 ---
 
@@ -647,7 +647,7 @@ If a transition is unavailable because of the existing media lifecycle, clearly 
 
 # 17. ACTIVE VIDEO CALL
 
-This is the most important screen in Velixa.
+This is the most important screen in VIORAX.
 
 The remote video should dominate.
 
@@ -1047,7 +1047,7 @@ You may explain:
 
 You may explain:
 
-> Velixa does not provide recording or accounts.
+> VIORAX does not provide recording or accounts.
 
 Do NOT claim:
 
@@ -1070,9 +1070,9 @@ Prefer reusable UI components.
 If appropriate, create:
 
 ```text
-src/components/velixa/
+src/components/VIORAX/
 
-VelixaHeader
+VIORAXHeader
 RoomStatusBar
 ConnectionStatus
 RoomCode
@@ -1203,7 +1203,7 @@ Perform the work in controlled passes.
 
 ## PASS 1 — BRAND FOUNDATION
 
-- Viorax → Velixa
+- Viorax → VIORAX
 - Global colors
 - Typography
 - Global background
@@ -1287,7 +1287,7 @@ Before declaring the redesign complete, verify:
 
 ### Branding
 
-- [ ] Velixa appears everywhere
+- [ ] VIORAX appears everywhere
 - [ ] No visible Viorax branding remains
 - [ ] Browser title updated
 - [ ] Metadata updated
@@ -1354,7 +1354,7 @@ Before declaring the redesign complete, verify:
 
 # 36. MOST IMPORTANT DESIGN PRINCIPLE
 
-Do not make Velixa look like a generic AI-generated SaaS dashboard.
+Do not make VIORAX look like a generic AI-generated SaaS dashboard.
 
 It should have a distinctive identity:
 
@@ -1366,7 +1366,7 @@ The final emotional impression should be:
 
 **Private-feeling. Immediate. Calm. Technical. Professional. Human.**
 
-When the redesign is complete, a user should be able to open Velixa and immediately understand:
+When the redesign is complete, a user should be able to open VIORAX and immediately understand:
 
 > **Create a room → Share the code → Choose voice, video, or screen → Connect.**
 
