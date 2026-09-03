@@ -29,7 +29,7 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  /* Viorax palette */
+  /* Velixa palette */
   --color-ink: var(--ink);
   --color-panel: var(--panel);
   --color-panel-line: var(--panel-line);
@@ -115,5 +115,16 @@
   }
   50% {
     opacity: 0.5;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
   }
 }
