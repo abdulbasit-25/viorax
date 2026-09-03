@@ -1,8 +1,8 @@
-# Velixa Design System
+# VIORAX Design System
 
 ## 1. Product Direction
 
-Velixa is a lightweight, browser-based real-time communication tool for voice calls, video calls, and screen sharing. It connects people through a short room code and keeps the interaction direct:
+VIORAX is a lightweight, browser-based real-time communication tool for voice calls, video calls, and screen sharing. It connects people through a short room code and keeps the interaction direct:
 
 > Create a room -> Join the room -> Choose a mode -> Connect
 
@@ -18,7 +18,7 @@ The product should feel private, immediate, and understandable. Users should nev
 
 ## 2. Visual Theme: Signal Console
 
-Velixa uses a modern signal-console theme: a near-black workspace, quiet graphite panels, warm amber actions, and cool cyan connection indicators. It is inspired by communications equipment and live production tools without becoming retro, noisy, or militaristic.
+VIORAX uses a modern signal-console theme: a near-black workspace, quiet graphite panels, warm amber actions, and cool cyan connection indicators. It is inspired by communications equipment and live production tools without becoming retro, noisy, or militaristic.
 
 The theme has three visual layers:
 
@@ -220,7 +220,7 @@ Use amber for the incoming state and red only for the decline action.
 
 The room status bar should contain:
 
-- Velixa identity and route back home
+- VIORAX identity and route back home
 - Room code
 - Role when relevant
 - Human-readable connection state
@@ -320,7 +320,7 @@ The brand can retain the signal vocabulary in small labels such as `Signal statu
 
 ## 13. Privacy and Trust Language
 
-Velixa may explain that media is sent directly between connected browsers and that the product does not provide recording or accounts. It must also be honest:
+VIORAX may explain that media is sent directly between connected browsers and that the product does not provide recording or accounts. It must also be honest:
 
 - Room codes are not authentication.
 - Anyone with the room code may attempt to join while the host is present.
@@ -350,4 +350,4 @@ A feature is ready when:
 - The interface remains usable on desktop and mobile widths.
 - Every failure explains what happened and what the user can do next.
 - No screen, call, or status remains visually active after its underlying media or peer connection ends.
-- The visual system still reads as Velixa: dark workspace, amber action, cyan connection, restrained console texture.
+- The visual system still reads as VIORAX: dark workspace, amber action, cyan connection, restrained console texture.
