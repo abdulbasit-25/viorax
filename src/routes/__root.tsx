@@ -13,13 +13,13 @@ import { Toaster } from "@/components/ui/sonner";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
-const SITE_URL = "https://Velixa.vercel.app";
-const SITE_NAME = "Velixa";
-const DEFAULT_TITLE = "Velixa — Talk, share, connect";
+const SITE_URL = "https://VIORAX.vercel.app";
+const SITE_NAME = "VIORAX";
+const DEFAULT_TITLE = "VIORAX — Talk, share, connect";
 const DEFAULT_DESCRIPTION =
   "Start a voice call, video call, or screen share with a simple room code.";
 const DEFAULT_IMAGE = `${SITE_URL}/og-image.jpg`;
-const DEFAULT_IMAGE_ALT = "Velixa logo and screen sharing preview";
+const DEFAULT_IMAGE_ALT = "VIORAX logo and screen sharing preview";
 const ARCHER_URL = "https://abdulbasit-archer.vercel.app/";
 
 const NAV_LINKS = [
@@ -179,7 +179,7 @@ function RootComponent() {
               to="/"
               className="font-mono text-sm uppercase tracking-[0.3em] text-text-muted hover:text-text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal"
             >
-              Velixa
+              VIORAX
             </Link>
 
             <button
