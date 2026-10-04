@@ -80,7 +80,7 @@
   --muted-foreground: var(--text-muted);
   --accent: #1f242c;
   --accent-foreground: var(--text-primary);
-  --destructive: #e5484d;
+  --destructive: #d83a40; /* white text on this passes 4.5:1 */
   --destructive-foreground: #ffffff;
   --destructive-text: #f0686c;
   --border: var(--panel-line);
