@@ -49,6 +49,9 @@
   /* Lets you write animate-signal-pulse / animate-signal-idle in markup. */
   --animate-signal-pulse: signal-pulse 1.2s ease-in-out infinite;
   --animate-signal-idle: signal-idle 3s ease-in-out infinite;
+  --animate-orbit: orbit 30s linear infinite;
+  --animate-orbit-reverse: orbit-reverse 18s linear infinite;
+  --animate-orbit-sweep: orbit 8s linear infinite;
 }
 
 :root {
@@ -113,6 +116,18 @@
   ::selection {
     background-color: var(--color-signal);
     color: #0e1116;
+  }
+}
+
+@keyframes orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbit-reverse {
+  to {
+    transform: rotate(-360deg);
   }
 }
 

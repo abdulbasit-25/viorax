@@ -39,24 +39,83 @@ const navLinkClass = `flex min-h-11 items-center font-mono text-sm uppercase tra
 
 const primaryButton = `inline-flex min-h-11 items-center justify-center rounded-md bg-signal px-4 py-2 text-sm font-medium text-ink transition-colors hover:bg-signal/90 ${focusRing}`;
 
-function ArcherLink({ className = "" }: { className?: string }) {
+function ArcherLink({ className = "", size = "md" }: { className?: string; size?: "sm" | "md" }) {
+  const box = size === "sm" ? "h-10 w-10" : "h-12 w-12";
   return (
     <a
       href={ARCHER_URL}
       target="_blank"
       rel="noopener noreferrer"
-      className={`inline-flex min-h-11 items-center gap-2 font-mono uppercase tracking-[0.3em] text-text-muted transition-colors hover:text-text-primary ${focusRing} ${className}`}
+      className={`group inline-flex min-h-11 items-center gap-3 transition-colors ${focusRing} ${className}`}
     >
-      <img
-        src={ARCHER_LOGO}
-        alt=""
-        width={20}
-        height={20}
-        loading="lazy"
-        decoding="async"
-        className="h-5 w-5 shrink-0 rounded-sm"
-      />
-      <span>Powered by Archer</span>
+      <span className="text-right leading-none">
+        <span className="block font-mono text-[9px] uppercase tracking-[0.35em] text-text-muted transition-colors group-hover:text-text-primary">
+          Powered by
+        </span>
+        <span className="mt-1.5 block text-sm font-bold uppercase tracking-wide text-text-primary">
+          Archer
+        </span>
+      </span>
+
+      {/* Logo with three revolving rings. Rings are decorative; motion stops for reduced-motion users. */}
+      <span className={`relative grid shrink-0 place-items-center ${box}`} aria-hidden="true">
+        {/* Outer dotted ring, slow clockwise */}
+        <svg
+          viewBox="0 0 48 48"
+          className="absolute inset-0 animate-orbit text-text-muted/70 motion-reduce:animate-none"
+        >
+          <circle
+            cx="24"
+            cy="24"
+            r="22.5"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeDasharray="0.01 3.4"
+          />
+        </svg>
+        {/* Middle dashed ring, counter-clockwise */}
+        <svg
+          viewBox="0 0 48 48"
+          className="absolute inset-[3px] animate-orbit-reverse text-link-cyan/60 motion-reduce:animate-none"
+        >
+          <circle
+            cx="24"
+            cy="24"
+            r="23"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1"
+            strokeDasharray="10 5 2 5"
+          />
+        </svg>
+        {/* Signal arc that sweeps like a radar line */}
+        <svg
+          viewBox="0 0 48 48"
+          className="absolute inset-[6px] animate-orbit-sweep text-signal motion-reduce:animate-none"
+        >
+          <circle
+            cx="24"
+            cy="24"
+            r="23"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeDasharray="28 117"
+          />
+        </svg>
+        <img
+          src={ARCHER_LOGO}
+          alt=""
+          width={32}
+          height={32}
+          loading="lazy"
+          decoding="async"
+          className="relative h-[68%] w-[68%] rounded-full object-cover"
+        />
+      </span>
     </a>
   );
 }
@@ -249,7 +308,7 @@ function RootComponent() {
             </nav>
 
             {/* On phones this lives in the footer instead, to keep the header compact. */}
-            <ArcherLink className="hidden text-xs lg:inline-flex" />
+            <ArcherLink size="sm" className="hidden lg:inline-flex" />
           </div>
         </header>
 
