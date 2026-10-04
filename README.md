@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="src/assests/favicon.ico" alt="Viorax logo" width="90" style="border-radius: 50%;" />
+  <img src="src/assests/viorax-favicon.ico" alt="Viorax logo" width="90" style="border-radius: 50%;" />
 
 # 📡 Viorax
 
@@ -24,9 +24,9 @@ Viorax is a lightweight, frontend-only screen sharing application that lets anyo
 **Desktop experience**
 
 <div align="center">
-  <img src="src/assests/desktop-home.png" alt="Viorax desktop home screen" width="400" />
+  <img src="src/assests/viorax-desktop-home.png" alt="Viorax desktop home screen" width="400" />
   &nbsp;&nbsp;
-  <img src="src/assests/connection established.png" alt="Viorax connection established screen" width="400" />
+  <img src="src/assests/viorax-connection-established.png" alt="Viorax connection established screen" width="400" />
   <br/>
   <sub><b>Desktop Home</b> — launch or join a session &nbsp;•&nbsp; <b>Connection Established</b> — live peer link status</sub>
 </div>
@@ -36,11 +36,11 @@ Viorax is a lightweight, frontend-only screen sharing application that lets anyo
 **Mobile & content screens**
 
 <div align="center">
-  <img src="src/assests/mobile view.png" alt="Viorax mobile view" width="200" />
+  <img src="src/assests/viorax-mobile%20view.png" alt="Viorax mobile view" width="200" />
   &nbsp;&nbsp;
-  <img src="src/assests/about section.jpg" alt="Viorax about section" width="200" />
+  <img src="src/assests/viorax-about-section.jpg" alt="Viorax about section" width="200" />
   &nbsp;&nbsp;
-  <img src="src/assests/help section.jpg" alt="Viorax help section" width="200" />
+  <img src="src/assests/viorax-help-section.jpg" alt="Viorax help section" width="200" />
   <br/>
   <sub><b>Mobile View</b> &nbsp;•&nbsp; <b>About Section</b> &nbsp;•&nbsp; <b>Help Section</b></sub>
 </div>
@@ -125,13 +125,13 @@ npm run build
 src/
 │
 ├── assests/
-│   ├── favicon.ico
-│   ├── logo.jpg
-│   ├── desktop-home.png
-│   ├── connection established.png
-│   ├── mobile view.png
-│   ├── help section.jpg
-│   └── about section.jpg
+│   ├── viorax-favicon.ico
+│   ├── viorax-logo.jpg
+│   ├── viorax-desktop-home.png
+│   ├── viorax-connection-established.png
+│   ├── viorax-mobile view.png
+│   ├── viorax-help-section.jpg
+│   └── viorax-about-section.jpg
 │
 ├── routes/
 │   ├── __root.tsx
