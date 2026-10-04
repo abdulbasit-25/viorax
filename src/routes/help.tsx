@@ -21,7 +21,7 @@ const focusRing =
 
 const HOST_STEPS = [
   "Create a room from the landing page.",
-  "Share the room code or QR code with your participant.",
+  "Share the room code, link, or QR code with your participant.",
   "Choose a voice call, video call, or screen share.",
   "Allow camera or microphone access when your browser asks.",
 ];
