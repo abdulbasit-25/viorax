@@ -37,12 +37,22 @@
   --color-link-cyan: var(--link-cyan);
   --color-text-primary: var(--text-primary);
   --color-text-muted: var(--text-muted);
+  /* Lighter red for small error text on dark surfaces (passes 4.5:1 contrast). */
+  --color-destructive-text: var(--destructive-text);
 
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* Adds the xs: variant the components already use (Tailwind has no xs by default). */
+  --breakpoint-xs: 30rem;
+
+  /* Lets you write animate-signal-pulse / animate-signal-idle in markup. */
+  --animate-signal-pulse: signal-pulse 1.2s ease-in-out infinite;
+  --animate-signal-idle: signal-idle 3s ease-in-out infinite;
 }
 
 :root {
+  color-scheme: dark; /* dark scrollbars, form controls and autofill */
   --radius: 0.375rem;
 
   --ink: #0e1116;
@@ -69,6 +79,7 @@
   --accent-foreground: var(--text-primary);
   --destructive: #e5484d;
   --destructive-foreground: #ffffff;
+  --destructive-text: #f0686c;
   --border: var(--panel-line);
   --input: var(--panel-line);
   --ring: var(--signal);
@@ -79,6 +90,12 @@
     border-color: var(--color-border);
   }
 
+  html {
+    -webkit-text-size-adjust: 100%; /* stop iOS resizing text in landscape */
+    -webkit-tap-highlight-color: transparent;
+    scroll-padding-top: 4rem;
+  }
+
   html,
   body {
     background-color: var(--color-ink);
@@ -86,14 +103,17 @@
     font-family: var(--font-sans);
   }
 
+  body {
+    min-height: 100dvh;
+    overflow-x: clip; /* no accidental sideways scroll on small screens */
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
   ::selection {
     background-color: var(--color-signal);
     color: #0e1116;
   }
-}
-
-@utility font-mono {
-  font-family: var(--font-mono);
 }
 
 @keyframes signal-pulse {
