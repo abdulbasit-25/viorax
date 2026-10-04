@@ -1,9 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useId, useRef, useState } from "react";
-import { Radio, LogIn, ArrowRight, Camera, Mic, Video, MonitorUp } from "lucide-react";
+import { LogIn, ArrowRight, Camera, Mic, Video, MonitorUp } from "lucide-react";
 import { generateRoomCode, normalizeRoomCode } from "@/lib/roomCode";
 import { DeviceSchematic } from "@/components/DeviceSchematic";
-import { Waveform } from "@/components/Waveform";
 import { QrScanner } from "@/components/QrScanner";
 
 const SITE = "https://viorax.vercel.app";
@@ -75,31 +74,9 @@ function Landing() {
   };
 
   return (
-    // Rendered inside the root route's <main>, so this is a <div>, not another <main>.
-    // dvh keeps the layout correct when mobile browser toolbars show/hide.
-    // The env() padding keeps content clear of notches in landscape (needs viewport-fit=cover).
-    <div className="flex min-h-dvh flex-col bg-ink pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)] text-text-primary">
-      <header className="flex items-center justify-between gap-3 border-b border-panel-line px-4 py-3.5 sm:px-6 sm:py-4 lg:px-10">
-        <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
-          <div className="grid h-8 w-8 shrink-0 place-items-center border border-signal/60 text-signal">
-            <Radio className="h-4 w-4" aria-hidden="true" />
-          </div>
-          <div className="flex min-w-0 flex-col leading-tight">
-            <span className="font-mono text-sm tracking-widest">VIORAX</span>
-            <span className="hidden truncate text-xs text-text-muted min-[30rem]:block">
-              Private. Instant. Connected.
-            </span>
-          </div>
-        </div>
-        <div
-          className="flex shrink-0 items-center gap-3 font-mono text-[10px] uppercase tracking-[0.3em] text-text-muted"
-          role="status"
-        >
-          <Waveform state="idle" bars={12} />
-          <span className="hidden sm:inline">Standby</span>
-        </div>
-      </header>
-
+    // Rendered inside the root route's <main> (which is flex-col), so this fills the
+    // remaining height with flex-1 instead of setting its own min-h-screen.
+    <div className="flex flex-1 flex-col text-text-primary">
       <QrScanner open={scannerOpen} onClose={() => setScannerOpen(false)} />
 
       <div className="mx-auto grid w-full max-w-[1600px] flex-1 grid-cols-1 lg:grid-cols-2 xl:grid-cols-[minmax(0,11fr)_minmax(0,9fr)]">

@@ -8,12 +8,13 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
+import { Radio } from "lucide-react";
 import { Toaster } from "@/components/ui/sonner";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
-const SITE_URL = "https://VIORAX.vercel.app";
+const SITE_URL = "https://viorax.vercel.app";
 const SITE_NAME = "VIORAX";
 const DEFAULT_TITLE = "VIORAX — Talk, share, connect";
 const DEFAULT_DESCRIPTION =
@@ -21,6 +22,8 @@ const DEFAULT_DESCRIPTION =
 const DEFAULT_IMAGE = `${SITE_URL}/og-image.jpg`;
 const DEFAULT_IMAGE_ALT = "VIORAX logo and screen sharing preview";
 const ARCHER_URL = "https://abdulbasit-archer.vercel.app/";
+// Tip: copy this file into /public (e.g. /archer-logo.png) and point here to self-host it.
+const ARCHER_LOGO = "https://abdulbasit-archer.vercel.app/logo.png";
 
 const NAV_LINKS = [
   { to: "/", label: "Home" },
@@ -28,26 +31,45 @@ const NAV_LINKS = [
   { to: "/help", label: "Help" },
 ] as const;
 
-const navLinkClass =
-  "font-mono text-sm uppercase tracking-[0.3em] text-text-muted transition-colors hover:text-text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal";
+const focusRing =
+  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal";
 
-const navLinkActiveProps = {
-  className: "text-text-primary",
-  "aria-current": "page" as const,
-};
+// TanStack's <Link> sets data-status="active", which avoids text-color class conflicts.
+const navLinkClass = `flex min-h-11 items-center font-mono text-sm uppercase tracking-[0.3em] text-text-muted transition-colors hover:text-text-primary data-[status=active]:text-text-primary lg:min-h-0 ${focusRing}`;
+
+const primaryButton = `inline-flex min-h-11 items-center justify-center rounded-md bg-signal px-4 py-2 text-sm font-medium text-ink transition-colors hover:bg-signal/90 ${focusRing}`;
+
+function ArcherLink({ className = "" }: { className?: string }) {
+  return (
+    <a
+      href={ARCHER_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`inline-flex min-h-11 items-center gap-2 font-mono uppercase tracking-[0.3em] text-text-muted transition-colors hover:text-text-primary ${focusRing} ${className}`}
+    >
+      <img
+        src={ARCHER_LOGO}
+        alt=""
+        width={20}
+        height={20}
+        loading="lazy"
+        decoding="async"
+        className="h-5 w-5 shrink-0 rounded-sm"
+      />
+      <span>Powered by Archer</span>
+    </a>
+  );
+}
 
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-ink px-4">
+    <div className="flex flex-1 items-center justify-center px-4 py-16">
       <div className="max-w-md text-center">
         <p className="font-mono text-xs uppercase tracking-[0.3em] text-signal">Signal lost</p>
         <h1 className="mt-4 font-mono text-6xl text-text-primary">404</h1>
         <p className="mt-2 text-sm text-text-muted">This room isn&apos;t active.</p>
         <div className="mt-6">
-          <Link
-            to="/"
-            className="inline-flex items-center justify-center rounded-md bg-signal px-4 py-2 text-sm font-medium text-ink transition-colors hover:bg-signal/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal"
-          >
+          <Link to="/" className={primaryButton}>
             Return to base
           </Link>
         </div>
@@ -66,14 +88,14 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   }, [error]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-ink px-4" role="alert">
-      <div className="max-w-md text-center">
+    <div className="flex flex-1 items-center justify-center px-4 py-16" role="alert">
+      <div className="w-full max-w-md text-center">
         <h1 className="text-xl font-semibold tracking-tight text-text-primary">
           Transmission interrupted
         </h1>
         <p className="mt-2 text-sm text-text-muted">The signal cut out. Retry or return to base.</p>
         {import.meta.env.DEV && (
-          <pre className="mt-4 max-h-40 overflow-auto rounded-md bg-panel p-3 text-left text-xs text-text-muted">
+          <pre className="mt-4 max-h-40 overflow-auto whitespace-pre-wrap break-words rounded-md bg-panel p-3 text-left text-xs text-text-muted">
             {error.message}
           </pre>
         )}
@@ -84,13 +106,13 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
               router.invalidate();
               reset();
             }}
-            className="inline-flex items-center justify-center rounded-md bg-signal px-4 py-2 text-sm font-medium text-ink transition-colors hover:bg-signal/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal"
+            className={primaryButton}
           >
             Retry
           </button>
           <a
             href="/"
-            className="inline-flex items-center justify-center rounded-md border border-panel-line bg-panel px-4 py-2 text-sm font-medium text-text-primary transition-colors hover:bg-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal"
+            className={`inline-flex min-h-11 items-center justify-center rounded-md border border-panel-line bg-panel px-4 py-2 text-sm font-medium text-text-primary transition-colors hover:bg-accent ${focusRing}`}
           >
             Go home
           </a>
@@ -104,10 +126,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      // viewport-fit=cover lets the safe-area padding below work on notched phones.
+      { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
       { title: DEFAULT_TITLE },
       { name: "description", content: DEFAULT_DESCRIPTION },
-      { name: "theme-color", content: "#0b0b0f" },
+      { name: "theme-color", content: "#0e1116" },
+      { name: "color-scheme", content: "dark" },
       { name: "robots", content: "index,follow" },
       { property: "og:title", content: DEFAULT_TITLE },
       { property: "og:description", content: DEFAULT_DESCRIPTION },
@@ -163,6 +187,14 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const [menuOpen, setMenuOpen] = useState(false);
 
+  // Let keyboard users dismiss the mobile menu with Escape.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setMenuOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [menuOpen]);
+
   return (
     <QueryClientProvider client={queryClient}>
       <a
@@ -172,19 +204,24 @@ function RootComponent() {
         Skip to content
       </a>
 
-      <div className="min-h-screen bg-ink text-text-primary">
-        <header className="border-b border-panel-line px-6 py-4 lg:px-10">
-          <div className="mx-auto flex flex-wrap items-center justify-between gap-4">
+      {/* The shell owns the full-height layout, so pages should use flex-1, not min-h-screen. */}
+      <div className="flex min-h-dvh flex-col bg-ink pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)] text-text-primary">
+        <header className="border-b border-panel-line px-4 py-2 sm:px-6 lg:px-10 lg:py-3">
+          <div className="mx-auto flex w-full max-w-[1600px] flex-wrap items-center justify-between gap-x-4">
             <Link
               to="/"
-              className="font-mono text-sm uppercase tracking-[0.3em] text-text-muted hover:text-text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal"
+              className={`flex min-h-11 items-center gap-2.5 font-mono text-sm tracking-widest text-text-primary ${focusRing}`}
+              onClick={() => setMenuOpen(false)}
             >
+              <span className="grid h-8 w-8 shrink-0 place-items-center border border-signal/60 text-signal">
+                <Radio className="h-4 w-4" aria-hidden="true" />
+              </span>
               VIORAX
             </Link>
 
             <button
               type="button"
-              className="font-mono text-xs uppercase tracking-[0.2em] text-text-muted hover:text-text-primary lg:hidden"
+              className={`min-h-11 px-2 font-mono text-xs uppercase tracking-[0.2em] text-text-muted hover:text-text-primary lg:hidden ${focusRing}`}
               aria-expanded={menuOpen}
               aria-controls="primary-nav"
               onClick={() => setMenuOpen((open) => !open)}
@@ -195,14 +232,14 @@ function RootComponent() {
             <nav
               id="primary-nav"
               aria-label="Primary"
-              className={`${menuOpen ? "flex" : "hidden"} w-full flex-col gap-3 lg:flex lg:w-auto lg:flex-row lg:items-center lg:gap-6`}
+              className={`${menuOpen ? "flex" : "hidden"} order-last w-full flex-col border-t border-panel-line pb-2 lg:order-none lg:ml-auto lg:mr-8 lg:flex lg:w-auto lg:flex-row lg:items-center lg:gap-8 lg:border-t-0 lg:pb-0`}
             >
               {NAV_LINKS.map((link) => (
                 <Link
                   key={link.to}
                   to={link.to}
                   className={navLinkClass}
-                  activeProps={navLinkActiveProps}
+                  activeProps={{ "aria-current": "page" as const }}
                   activeOptions={{ exact: link.to === "/" }}
                   onClick={() => setMenuOpen(false)}
                 >
@@ -211,30 +248,17 @@ function RootComponent() {
               ))}
             </nav>
 
-            <a
-              href={ARCHER_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-mono text-sm uppercase tracking-[0.3em] text-text-muted transition-colors hover:text-text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal"
-            >
-              Powered by Archer
-            </a>
+            {/* On phones this lives in the footer instead, to keep the header compact. */}
+            <ArcherLink className="hidden text-xs lg:inline-flex" />
           </div>
         </header>
 
-        <main id="main-content">
+        <main id="main-content" tabIndex={-1} className="flex flex-1 flex-col outline-none">
           <Outlet />
         </main>
 
-        <footer className="border-t border-panel-line px-6 py-6 text-center text-xs text-text-muted">
-          <a
-            href={ARCHER_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-mono uppercase tracking-[0.3em] text-text-muted hover:text-text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal"
-          >
-            Powered by Archer
-          </a>
+        <footer className="flex justify-center border-t border-panel-line px-6 pb-[max(1rem,env(safe-area-inset-bottom))] pt-3 text-xs">
+          <ArcherLink />
         </footer>
       </div>
       <Toaster theme="dark" position="bottom-right" />
