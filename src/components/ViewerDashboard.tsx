@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState, type ComponentType } from "react";
 import {
   Volume2,
   VolumeX,
@@ -15,70 +15,114 @@ import {
 import type { ViewerState } from "@/hooks/usePeerConnection";
 import { Waveform } from "./Waveform";
 
+const focusRing =
+  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal";
+
+const eyebrow = "font-mono text-[10px] uppercase tracking-[0.3em]";
+
+const VARIANTS = {
+  default:
+    "border-panel-line bg-panel text-text-muted hover:border-link-cyan/60 hover:text-text-primary",
+  accent: "border-signal/60 text-text-primary hover:bg-signal/10",
+  danger: "border-destructive bg-destructive text-destructive-foreground hover:bg-destructive/90",
+} as const;
+
+function Control({
+  icon: Icon,
+  label,
+  onClick,
+  variant = "default",
+  disabled,
+  pressed,
+  className = "",
+}: {
+  icon: ComponentType<{ className?: string; "aria-hidden"?: boolean }>;
+  label: string;
+  onClick: () => void;
+  variant?: keyof typeof VARIANTS;
+  disabled?: boolean;
+  pressed?: boolean;
+  className?: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      aria-pressed={pressed}
+      className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-md border px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] transition-colors active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40 ${VARIANTS[variant]} ${focusRing} ${className}`}
+    >
+      <Icon className="h-4 w-4 shrink-0" aria-hidden />
+      {label}
+    </button>
+  );
+}
+
+// Assign streams through callback refs so they survive the <video>/<audio> elements
+// remounting when the call mode changes (a plain effect would miss that).
+const attach = (stream: MediaStream | null | undefined) => (el: HTMLMediaElement | null) => {
+  if (el && el.srcObject !== (stream ?? null)) el.srcObject = stream ?? null;
+};
+
 export function ViewerDashboard({ viewer, roomCode }: { viewer: ViewerState; roomCode: string }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const localVideoRef = useRef<HTMLVideoElement>(null);
   const [muted, setMuted] = useState(true);
   const [micEnabled, setMicEnabled] = useState(true);
   const [cameraEnabled, setCameraEnabled] = useState(true);
+  const [videoEl, setVideoEl] = useState<HTMLVideoElement | null>(null);
 
+  const { callMode, remoteStream, localStream, state } = viewer;
+  const isLive = state === "live" && !!remoteStream;
+
+  // New call: mic and camera start on. Calls are user-initiated, so play their audio right away;
+  // plain screen sharing stays muted until the viewer opts in.
   useEffect(() => {
-    if (videoRef.current && viewer.remoteStream) {
-      videoRef.current.srcObject = viewer.remoteStream;
-    }
-  }, [viewer.remoteStream]);
-
-  useEffect(() => {
-    if (localVideoRef.current && viewer.localStream) {
-      localVideoRef.current.srcObject = viewer.localStream;
-    }
-  }, [viewer.localStream]);
-
-  const isLive = viewer.state === "live" && viewer.remoteStream;
+    setMicEnabled(true);
+    setCameraEnabled(true);
+    setMuted(!callMode);
+  }, [callMode]);
 
   const toggleMic = () => {
-    viewer.localStream?.getAudioTracks().forEach((track) => {
-      track.enabled = !micEnabled;
-    });
-    setMicEnabled((enabled) => !enabled);
+    localStream?.getAudioTracks().forEach((t) => (t.enabled = !micEnabled));
+    setMicEnabled((v) => !v);
   };
 
   const toggleCamera = () => {
-    viewer.localStream?.getVideoTracks().forEach((track) => {
-      track.enabled = !cameraEnabled;
-    });
-    setCameraEnabled((enabled) => !enabled);
+    localStream?.getVideoTracks().forEach((t) => (t.enabled = !cameraEnabled));
+    setCameraEnabled((v) => !v);
   };
 
   const fullscreen = () => {
-    videoRef.current?.requestFullscreen?.();
+    const v = videoEl as (HTMLVideoElement & { webkitEnterFullscreen?: () => void }) | null;
+    if (!v) return;
+    if (v.requestFullscreen) void v.requestFullscreen();
+    else v.webkitEnterFullscreen?.(); // iPhone Safari
   };
 
+  const badge =
+    callMode === "voice"
+      ? "Voice call active"
+      : callMode === "video"
+        ? "Video call active"
+        : "Screen sharing active";
+
   return (
-    <div className="flex flex-col gap-4 px-4 py-6 sm:px-6 lg:px-10 lg:py-10">
-      <div className="relative aspect-video w-full overflow-hidden border border-panel-line bg-black">
-        {viewer.callMode === "voice" && viewer.remoteStream ? (
-          <div className="flex h-full flex-col items-center justify-center gap-4 bg-panel">
-            <div className="grid h-20 w-20 place-items-center border border-signal/60 text-2xl text-signal">
-              {roomCode.slice(0, 2)}
+    <div className="flex flex-col gap-4 px-4 py-4 sm:px-6 sm:py-6 lg:px-10 lg:py-10">
+      <div className="relative aspect-video max-h-[75dvh] w-full overflow-hidden rounded-md border border-panel-line bg-black">
+        {callMode === "voice" && remoteStream ? (
+          <div className="flex h-full flex-col items-center justify-center gap-3 bg-panel px-4 sm:gap-4">
+            <div className="grid h-14 w-14 place-items-center rounded-full border border-signal/60 text-signal sm:h-20 sm:w-20">
+              <Phone className="h-6 w-6 sm:h-8 sm:w-8" aria-hidden />
             </div>
-            <div className="text-center">
-              <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-signal">
-                Voice call active
-              </p>
-              <p className="mt-2 text-sm text-text-muted">Room participant</p>
-            </div>
-            <audio
-              ref={(element) => {
-                if (element) element.srcObject = viewer.remoteStream;
-              }}
-              autoPlay
-              muted={muted}
-            />
+            <Waveform state="live" bars={24} />
+            <p className="text-sm text-text-muted">Room participant</p>
+            <audio ref={attach(remoteStream)} autoPlay muted={muted} />
           </div>
         ) : (
           <video
-            ref={videoRef}
+            ref={(el) => {
+              attach(remoteStream)(el);
+              setVideoEl((prev) => (prev === el || el === null ? prev : el));
+            }}
             autoPlay
             playsInline
             muted={muted}
@@ -86,45 +130,47 @@ export function ViewerDashboard({ viewer, roomCode }: { viewer: ViewerState; roo
           />
         )}
 
-        {viewer.callMode === "video" && viewer.localStream && (
+        {callMode === "video" && localStream && (
           <video
-            ref={localVideoRef}
+            ref={attach(localStream)}
             autoPlay
             playsInline
             muted
-            className="absolute bottom-4 right-4 aspect-video w-28 border border-panel-line bg-ink object-cover sm:w-40"
+            aria-label="Your camera"
+            className={`absolute bottom-3 right-3 aspect-video w-24 -scale-x-100 rounded border border-panel-line bg-ink object-cover shadow-lg transition-opacity sm:bottom-4 sm:right-4 sm:w-40 ${
+              cameraEnabled ? "opacity-100" : "opacity-40"
+            }`}
           />
         )}
 
         {!isLive && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-ink px-6 text-center">
-            {viewer.state === "error" ? (
+          <div
+            role="status"
+            className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-ink px-4 text-center sm:gap-4 sm:px-6"
+          >
+            {state === "error" ? (
               <>
-                <MonitorX className="h-10 w-10 text-destructive" />
-                <p className="font-mono text-xs uppercase tracking-[0.3em] text-destructive">
-                  Signal error
-                </p>
+                <MonitorX className="h-8 w-8 text-destructive-text sm:h-10 sm:w-10" aria-hidden />
+                <p className={`${eyebrow} text-destructive-text`}>Signal error</p>
                 <p className="max-w-sm text-sm text-text-muted">
                   {viewer.error || "Could not connect to this room."}
                 </p>
               </>
-            ) : viewer.state === "disconnected" ? (
+            ) : state === "disconnected" ? (
               <>
-                <MonitorX className="h-10 w-10 text-text-muted" />
-                <p className="font-mono text-xs uppercase tracking-[0.3em] text-text-muted">
-                  Off the air
-                </p>
+                <MonitorX className="h-8 w-8 text-text-muted sm:h-10 sm:w-10" aria-hidden />
+                <p className={`${eyebrow} text-text-muted`}>Off the air</p>
                 <p className="max-w-sm text-sm text-text-muted">
                   The participant disconnected. You can stay here and wait for them to reconnect.
                 </p>
               </>
             ) : (
               <>
-                <Waveform state={viewer.state === "connected" ? "connected" : "idle"} bars={40} />
-                <p className="font-mono text-xs uppercase tracking-[0.3em] text-text-muted">
-                  {viewer.state === "initializing"
+                <Waveform state={state === "connected" ? "connected" : "idle"} bars={40} />
+                <p className={`${eyebrow} text-text-muted`}>
+                  {state === "initializing"
                     ? "Opening room..."
-                    : viewer.state === "waiting"
+                    : state === "waiting"
                       ? `Connecting to room ${roomCode}...`
                       : "Ready to connect with a participant."}
                 </p>
@@ -134,118 +180,109 @@ export function ViewerDashboard({ viewer, roomCode }: { viewer: ViewerState; roo
         )}
 
         {isLive && (
-          <div className="pointer-events-none absolute left-3 top-3 flex items-center gap-2 border border-signal/60 bg-ink/70 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.3em] text-signal">
-            <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-signal" />
-            {viewer.callMode === "voice"
-              ? "Voice call active"
-              : viewer.callMode === "video"
-                ? "Video call active"
-                : "Screen sharing active"}
+          <div
+            className={`pointer-events-none absolute left-3 top-3 flex items-center gap-2 rounded border border-signal/60 bg-ink/70 px-2 py-1 text-signal ${eyebrow}`}
+          >
+            <span
+              className="inline-block h-1.5 w-1.5 rounded-full bg-signal motion-safe:animate-pulse"
+              aria-hidden
+            />
+            {badge}
           </div>
         )}
       </div>
 
       {viewer.incomingCall && (
-        <div className="flex flex-wrap items-center justify-between gap-4 border border-signal bg-panel p-5">
+        <div
+          role="alert"
+          className="flex flex-col gap-4 rounded-md border border-signal bg-panel p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5"
+        >
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-signal">
-              Incoming {viewer.incomingCall.mode} call
-            </p>
+            <p className={`${eyebrow} text-signal`}>Incoming {viewer.incomingCall.mode} call</p>
             <p className="mt-2 text-sm text-text-primary">
               A participant is calling from this room.
             </p>
           </div>
-          <div className="flex gap-2">
+          <div className="grid grid-cols-2 gap-2 sm:flex">
             <button
               type="button"
               onClick={viewer.acceptCall}
-              className="inline-flex items-center gap-2 bg-signal px-4 py-2 font-mono text-[10px] uppercase tracking-[0.2em] text-ink"
+              className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-signal px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-ink hover:bg-signal/90 ${focusRing}`}
             >
-              <Phone className="h-3.5 w-3.5" /> Accept
+              <Phone className="h-4 w-4" aria-hidden /> Accept
             </button>
             <button
               type="button"
               onClick={viewer.rejectCall}
-              className="inline-flex items-center gap-2 border border-destructive px-4 py-2 font-mono text-[10px] uppercase tracking-[0.2em] text-destructive"
+              className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-destructive px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-destructive-text hover:bg-destructive/10 ${focusRing}`}
             >
-              <PhoneOff className="h-3.5 w-3.5" /> Decline
+              <PhoneOff className="h-4 w-4" aria-hidden /> Decline
             </button>
           </div>
         </div>
       )}
 
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-text-muted">
-          Room <span className="text-text-primary tracking-[0.4em]">{roomCode}</span>
+      <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+        <div className={`${eyebrow} text-text-muted`}>
+          Room <span className="tracking-[0.4em] text-text-primary">{roomCode}</span>
         </div>
-        <div className="flex items-center gap-2">
-          {!viewer.callMode && viewer.state === "connected" && (
+
+        <div
+          role="toolbar"
+          aria-label="Call controls"
+          className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:items-center"
+        >
+          {callMode && (
+            <Control
+              icon={PhoneOff}
+              label="End call"
+              variant="danger"
+              onClick={viewer.endCall}
+              className="col-span-2 sm:order-last sm:col-span-1"
+            />
+          )}
+          {!callMode && state === "connected" && (
             <>
-              <button
-                type="button"
+              <Control
+                icon={Phone}
+                label="Voice call"
+                variant="accent"
                 onClick={() => viewer.startCall("voice")}
-                className="inline-flex items-center gap-2 border border-signal/60 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.2em] text-text-muted hover:text-text-primary"
-              >
-                <Phone className="h-3.5 w-3.5" /> voice
-              </button>
-              <button
-                type="button"
+              />
+              <Control
+                icon={Video}
+                label="Video call"
+                variant="accent"
                 onClick={() => viewer.startCall("video")}
-                className="inline-flex items-center gap-2 border border-signal/60 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.2em] text-text-muted hover:text-text-primary"
-              >
-                <Video className="h-3.5 w-3.5" /> video
-              </button>
+              />
             </>
           )}
-          {viewer.callMode && (
-            <>
-              <button
-                type="button"
-                onClick={toggleMic}
-                className="inline-flex items-center gap-2 border border-panel-line px-3 py-2 font-mono text-[10px] uppercase tracking-[0.2em] text-text-muted"
-              >
-                {micEnabled ? <Mic className="h-3.5 w-3.5" /> : <MicOff className="h-3.5 w-3.5" />}{" "}
-                mic
-              </button>
-              {viewer.callMode === "video" && (
-                <button
-                  type="button"
-                  onClick={toggleCamera}
-                  className="inline-flex items-center gap-2 border border-panel-line px-3 py-2 font-mono text-[10px] uppercase tracking-[0.2em] text-text-muted"
-                >
-                  {cameraEnabled ? (
-                    <Camera className="h-3.5 w-3.5" />
-                  ) : (
-                    <CameraOff className="h-3.5 w-3.5" />
-                  )}{" "}
-                  camera
-                </button>
-              )}
-              <button
-                type="button"
-                onClick={viewer.endCall}
-                className="inline-flex items-center gap-2 border border-destructive px-3 py-2 font-mono text-[10px] uppercase tracking-[0.2em] text-destructive"
-              >
-                <PhoneOff className="h-3.5 w-3.5" /> end
-              </button>
-            </>
+          {callMode && (
+            <Control
+              icon={micEnabled ? Mic : MicOff}
+              label={micEnabled ? "Mute mic" : "Unmute mic"}
+              pressed={!micEnabled}
+              onClick={toggleMic}
+            />
           )}
-          <button
+          {callMode === "video" && (
+            <Control
+              icon={cameraEnabled ? Camera : CameraOff}
+              label={cameraEnabled ? "Camera off" : "Camera on"}
+              pressed={!cameraEnabled}
+              onClick={toggleCamera}
+            />
+          )}
+          <Control
+            icon={muted ? VolumeX : Volume2}
+            label={muted ? "Unmute audio" : "Mute audio"}
+            pressed={muted}
+            disabled={!isLive}
             onClick={() => setMuted((m) => !m)}
-            disabled={!isLive}
-            className="inline-flex items-center gap-2 border border-panel-line px-3 py-2 font-mono text-[10px] uppercase tracking-[0.25em] text-text-muted transition-colors hover:text-text-primary disabled:opacity-40"
-          >
-            {muted ? <VolumeX className="h-3.5 w-3.5" /> : <Volume2 className="h-3.5 w-3.5" />}
-            {muted ? "unmute" : "mute"}
-          </button>
-          <button
-            onClick={fullscreen}
-            disabled={!isLive}
-            className="inline-flex items-center gap-2 border border-panel-line px-3 py-2 font-mono text-[10px] uppercase tracking-[0.25em] text-text-muted transition-colors hover:text-text-primary disabled:opacity-40"
-          >
-            <Maximize className="h-3.5 w-3.5" />
-            fullscreen
-          </button>
+          />
+          {callMode !== "voice" && (
+            <Control icon={Maximize} label="Fullscreen" disabled={!isLive} onClick={fullscreen} />
+          )}
         </div>
       </div>
     </div>
