@@ -190,7 +190,7 @@ function Landing() {
                 </button>
               </div>
               {showError && (
-                <p id={errorId} role="alert" className="text-xs text-destructive">
+                <p id={errorId} role="alert" className="text-xs text-destructive-text">
                   Enter the 6-character room code.
                 </p>
               )}
