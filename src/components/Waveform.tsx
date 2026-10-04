@@ -1,35 +1,71 @@
+import { useMemo } from "react";
 import { cn } from "@/lib/utils";
 
 type State = "idle" | "connected" | "live";
 
-export function Waveform({ state, bars = 32 }: { state: State; bars?: number }) {
-  const color =
-    state === "live"
-      ? "bg-signal"
-      : state === "connected"
-        ? "bg-link-cyan"
-        : "bg-panel-line";
+const COLOR: Record<State, string> = {
+  idle: "bg-panel-line",
+  connected: "bg-link-cyan",
+  live: "bg-signal",
+};
+
+const DURATION: Record<State, string> = {
+  idle: "2400ms",
+  connected: "1200ms",
+  live: "700ms",
+};
+
+// Pixels of width reserved per bar (bar + gap), used to cap the total width.
+const BAR_SLOT = 7;
+
+export function Waveform({
+  state,
+  bars = 32,
+  className,
+}: {
+  state: State;
+  bars?: number;
+  className?: string;
+}) {
+  // Deterministic heights (rounded so server and browser always agree): two overlapping
+  // sine waves give a natural-looking envelope, tallest in the middle like a real voice trace.
+  const heights = useMemo(
+    () =>
+      Array.from({ length: bars }, (_, i) => {
+        if (state === "idle") return 20 + ((i * 37) % 10);
+        const envelope = Math.sin((Math.PI * (i + 0.5)) / bars);
+        const ripple = 0.55 + 0.45 * Math.abs(Math.sin(i * 0.9) * Math.cos(i * 0.37));
+        return Math.round(22 + 70 * envelope * ripple);
+      }),
+    [bars, state],
+  );
+
+  const animation = state === "idle" ? "signal-idle" : "signal-pulse";
 
   return (
-    <div className="flex h-10 items-center gap-[3px]" aria-hidden>
-      {Array.from({ length: bars }).map((_, i) => {
-        const seed = (i * 37) % 100;
-        const baseHeight = state === "idle" ? 20 + (seed % 10) : 30 + (seed % 60);
-        const delay = `${(i * 60) % 900}ms`;
-        const duration = state === "live" ? "700ms" : state === "connected" ? "1200ms" : "2400ms";
-        const anim = state === "idle" ? "signal-idle" : "signal-pulse";
-        return (
-          <span
-            key={i}
-            className={cn("w-[3px] rounded-full origin-center", color)}
-            style={{
-              height: `${baseHeight}%`,
-              animation: `${anim} ${duration} ease-in-out infinite`,
-              animationDelay: delay,
-            }}
-          />
-        );
-      })}
+    <div
+      aria-hidden="true"
+      // Fills the available width but never stretches past a sensible size, and never overflows
+      // a narrow phone: bars shrink instead of the row scrolling or clipping.
+      className={cn("flex h-10 w-full min-w-0 items-center justify-center gap-[3px]", className)}
+      style={{ maxWidth: bars * BAR_SLOT }}
+    >
+      {heights.map((height, i) => (
+        <span
+          key={i}
+          className={cn(
+            "min-w-px max-w-[4px] flex-1 origin-center rounded-full transition-colors duration-500",
+            COLOR[state],
+            // For reduced-motion users, drop the animation and show a still waveform.
+            "motion-reduce:animate-none!",
+          )}
+          style={{
+            height: `${height}%`,
+            animation: `${animation} ${DURATION[state]} ease-in-out infinite`,
+            animationDelay: `${(i * 60) % 900}ms`,
+          }}
+        />
+      ))}
     </div>
   );
 }
